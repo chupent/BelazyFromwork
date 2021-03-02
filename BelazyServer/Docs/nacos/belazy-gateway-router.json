@@ -1,0 +1,44 @@
+[
+  {
+    "filters": [],
+    "id": "baidu_route",
+    "order": 0,
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/baidu"
+        },
+        "name": "Path"
+      }
+    ],
+    "uri": "https://www.baidu.com"
+  },
+  {
+    "filters": [],
+    "id": "gateway-bbs-capp",
+    "order": 0,
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/capp/**"
+        },
+        "name": "Path"
+      }
+    ],
+    "uri": "lb://bbs-capp"
+  },
+  {
+    "filters": [],
+    "id": "gateway-bbs-test",
+    "order": 0,
+    "predicates": [
+      {
+        "args": {
+          "pattern": "/test/**"
+        },
+        "name": "Path"
+      }
+    ],
+    "uri": "lb://bbs-test"
+  }
+]

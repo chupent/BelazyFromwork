@@ -1,0 +1,63 @@
+server:
+  port: 8899
+  servlet:
+    context-path: /
+
+#监控节点信息
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+
+  cloud:
+    #网关配置
+    gateway:
+      discovery:
+        locator:
+            enabled: true   #表明gateway开启服务注册和发现的功能，并且spring cloud gateway自动根据服务发现为每一个服务创建了一个router，这个router将以服务名开头的请求路径转发到对应的服务
+            lower-case-service-id: true  #是将请求路径上的服务名配置为小写（因为服务注册的时候，向注册中心注册时将服务名转成大写的了
+      #熔断机制
+      default-filters:
+      - name: Hystrix
+        args:
+          name: default
+          fallbackUri: forward:/defaultFallback
+#      routes:
+#          #自定义的路由 ID，保持唯一
+#        - id: gateway-bbs-capp
+#          #目标服务地址
+#          uri: lb://bbs-capp
+#          #路由条件，Predicate 接受一个输入参数，返回一个布尔值结果。该接口包含多种默认方法来将 Predicate 组合成其他复杂的逻辑（比如：与，或，非）
+#          predicates:
+#          - Path=/capp/**
+#
+#        - id: gateway-bbs-test
+#          uri: lb://bbs-test
+#          predicates:
+#          - Path=/test/**
+
+#熔断机制
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 2000
+  shareSecurityContext: true
+
+#动态路由配置信息
+bgateway:
+  dataId: belazy-gateway-router
+  group: BELAZY-GROUP

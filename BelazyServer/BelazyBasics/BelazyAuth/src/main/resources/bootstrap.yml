@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: belazy-auth
+  cloud:
+    nacos:
+      discovery: #nacos注册地址
+        server-addr: ${REGISTER_HOST:localhost}:${REGISTER_PORT:8848}
+        metadata: #标记元
+          version: tangcp
+      config: #nacos配置地址
+        server-addr: ${REGISTER_HOST:localhost}:${REGISTER_PORT:8848}
+        file-extension: yml
+        group: BELAZY-GROUP
+        prefix: belazy-auth
+  main:
+    allow-bean-definition-overriding: true
+
+
+
+
