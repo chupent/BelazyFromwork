@@ -1,5 +1,7 @@
 package com.belazy.library.core.basics;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -7,6 +9,7 @@ import lombok.Data;
  *
  * @author tangcp
  */
+@ApiModel(value = "系统全局数据响应模型")
 @Data
 public class Result<T> {
     public static final String SUCCESS_CODE = "200";
@@ -14,17 +17,11 @@ public class Result<T> {
     public static final String FAIL_CODE = "400";
     public static final String FAIL_MESSAGE = "request fail!";
 
-    /**
-     * 响应状态码
-     **/
+    @ApiModelProperty(value = "响应码:200请求正常，非200请求异常")
     private String code;
-    /**
-     * 响应消息
-     **/
+    @ApiModelProperty(value = "响应消息")
     private String message;
-    /**
-     * 响应内容
-     **/
+    @ApiModelProperty(value = "响应内容")
     private T body;
 
     public static <T> Result<T> success(T body) {

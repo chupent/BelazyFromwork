@@ -25,6 +25,7 @@
         <spring.cloud.gateway.version>2.2.7.RELEASE</spring.cloud.gateway.version>
         <swagger.version>3.0.0</swagger.version>
         <knife4j.version>3.0.1</knife4j.version>
+        <springframework.plugin.version>2.0.0.RELEASE</springframework.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -57,6 +58,17 @@
     </dependencyManagement>
 
     <dependencies>
+        <!--替换io.springfox3默认1.2，解决启动错误-->
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-core</artifactId>
+            <version>${springframework.plugin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-metadata</artifactId>
+            <version>${springframework.plugin.version}</version>
+        </dependency>
         <!--AOP-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -67,16 +79,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.plugin</groupId>
-            <artifactId>spring-plugin-core</artifactId>
-            <version>2.0.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.plugin</groupId>
-            <artifactId>spring-plugin-metadata</artifactId>
-            <version>2.0.0.RELEASE</version>
         </dependency>
     </dependencies>
 
