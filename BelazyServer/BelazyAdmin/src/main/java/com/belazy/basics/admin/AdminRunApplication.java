@@ -29,5 +29,6 @@ public class AdminRunApplication {
                         "External: \thttp://{}:{}\n\t" +
                         "----------------------------------------------------------",
                 appName, ipAddress, port);
+
     }
 }

@@ -26,11 +26,6 @@
             <artifactId>spring-boot-admin-starter-client</artifactId>
             <version>${spring.boot.admin.version}</version>
         </dependency>
-        <!--spring boot-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <!--阿里服务注册与发现-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
