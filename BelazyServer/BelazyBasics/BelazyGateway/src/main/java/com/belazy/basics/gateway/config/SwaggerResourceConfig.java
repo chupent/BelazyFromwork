@@ -2,7 +2,6 @@ package com.belazy.basics.gateway.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * 聚合Swagger3文档
  * @author tangcp
  */
 @Configuration
