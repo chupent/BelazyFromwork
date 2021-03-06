@@ -26,7 +26,7 @@ public class ConsoleUtil {
         }
         log.info("\n----------------------------------------------------------\n\t" +
                         "Application '{}' is running! Access URLs:\n\t" +
-                        "External: \thttp://{}:{}\n\t" +
+                        "External: \thttp://{}:{}/doc.html\n\t" +
                         "----------------------------------------------------------",
                 appName, ipAddress, port);
     }
@@ -46,8 +46,7 @@ public class ConsoleUtil {
         log.info("\n----------------------------------------------------------\n\t" +
                         "Application '{}' is running! Access URLs:\n\t" +
                         "External: \thttp://{}:{}\n\t" +
-                        "SwaggerUI: \thttp://localhost:{}/swagger-ui/index.html \n\t" +
-                        "Knife4jUI: \thttp://localhost:{}/doc.html\n" +
+                        "SwaggerUI: \thttp://localhost:{}/swagger-ui/index.html \n"+
                         "----------------------------------------------------------",
                 appName, ipAddress, port, port,port);
     }
