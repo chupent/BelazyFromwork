@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.net.UnknownHostException;
 
@@ -13,6 +14,8 @@ import java.net.UnknownHostException;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
+
+@ComponentScan(basePackages = {"com.belazy"})
 public class ConsumerAppRunApplication {
     public static void main(String[] args)  {
         ApplicationContext applicationContext = SpringApplication.run (ConsumerAppRunApplication.class, args);

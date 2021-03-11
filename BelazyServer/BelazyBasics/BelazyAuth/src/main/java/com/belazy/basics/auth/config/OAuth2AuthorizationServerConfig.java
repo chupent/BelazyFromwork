@@ -1,7 +1,12 @@
 package com.belazy.basics.auth.config;
+
+import com.belazy.basics.auth.exception.IOAuth2WebResponseExceptionTranslator;
+import com.belazy.basics.auth.mobile.MobileSMSCodeTokenGranter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,8 +16,23 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.TokenGranter;
+import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
+import org.springframework.security.oauth2.provider.implicit.ImplicitTokenGranter;
+import org.springframework.security.oauth2.provider.password.ResourceOwnerPasswordTokenGranter;
+import org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 认证服务器配置
@@ -32,20 +52,27 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 @EnableAuthorizationServer
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-    final private TokenStore tokenStore;
     final private JwtAccessTokenConverter jwtAccessTokenConverter;
     final private UserDetailsService userDetailsService;
     final private AuthenticationManager authenticationManager;
     final private PasswordEncoder passwordEncoder;
+    final private IOAuth2WebResponseExceptionTranslator exceptionTranslator;
+    final private RedisConnectionFactory redisConnectionFactory;
+    @Bean
+    public TokenStore redisTokenStore() {
+        return new RedisTokenStore (redisConnectionFactory);
+    }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints){
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
-                .tokenStore (tokenStore)
+                .tokenStore (redisTokenStore())
                 .accessTokenConverter (jwtAccessTokenConverter)
                 .userDetailsService (userDetailsService) // 用户信息得服务，一版是都数据库
                 .authenticationManager (authenticationManager)// 认证管理器。
                 .allowedTokenEndpointRequestMethods (HttpMethod.GET, HttpMethod.POST);
+        endpoints.tokenGranter (new CompositeTokenGranter (getTokenGranters (endpoints)));//重新这种之定义的Token生成器
+        endpoints.exceptionTranslator (exceptionTranslator);//配置异常转换器
     }
 
     @Override
@@ -54,15 +81,33 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                 .withClient ("wuzzClientId")//客户端得ID,比如我们在QQ互联中心申请得。可以写多个。配置 循环
                 .secret (passwordEncoder.encode ("wuzzSecret")) // 客户端密钥，需要进行加密
                 .accessTokenValiditySeconds (7200)// token 有效时常  0 永久有效
-                .authorizedGrantTypes ("password", "refresh_token", "authorization_code")// 支持得授权类型:支持刷新令牌、密码模式、授权码模式
+                .authorizedGrantTypes ("password", "refresh_token", "authorization_code","sms_code")// 支持得授权类型:支持刷新令牌、密码模式、授权码模式
                 .scopes ("all", "read", "write")//拥有的 scope  可选
                 .redirectUris ("http://www.baidu.com");//回调地址
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security){
+    public void configure(AuthorizationServerSecurityConfigurer security) {
         security.allowFormAuthenticationForClients ()//允许表单登录
-                .checkTokenAccess ("permitAll()"); //开启/oauth/check_token验证端口认证权限访问
+                .tokenKeyAccess ("permitAll()") //开启/oauth/check_token验证端口认证权限访问
+                .checkTokenAccess("isAuthenticated()");
     }
 
+    //自定义认证模式
+    private List<TokenGranter> getTokenGranters(AuthorizationServerEndpointsConfigurer endpoints) {
+        AuthorizationServerTokenServices tokenServices = endpoints.getTokenServices ();
+        AuthorizationCodeServices authorizationCodeServices = endpoints.getAuthorizationCodeServices ();
+        ClientDetailsService clientDetailsService = endpoints.getClientDetailsService ();
+        OAuth2RequestFactory requestFactory = endpoints.getOAuth2RequestFactory ();
+        List<TokenGranter> tokenGranters = new ArrayList<TokenGranter> ();
+        tokenGranters.add (new AuthorizationCodeTokenGranter (tokenServices, authorizationCodeServices, clientDetailsService, requestFactory));
+        tokenGranters.add (new RefreshTokenGranter (tokenServices, clientDetailsService, requestFactory));
+        tokenGranters.add (new ImplicitTokenGranter (tokenServices, clientDetailsService, requestFactory));
+        tokenGranters.add (new ClientCredentialsTokenGranter (tokenServices, clientDetailsService, requestFactory));
+        if (authenticationManager != null) {
+            tokenGranters.add (new ResourceOwnerPasswordTokenGranter (authenticationManager, tokenServices, clientDetailsService, requestFactory));
+            tokenGranters.add (new MobileSMSCodeTokenGranter (authenticationManager, tokenServices, clientDetailsService, requestFactory));
+        }
+        return tokenGranters;
+    }
 }
