@@ -1,10 +1,10 @@
 package com.belazy.basics.auth.mobile;
 
+import com.belazy.basics.auth.exception.IOAuth2Exception;
 import com.belazy.library.core.constant.CommonConstant;
 import com.belazy.library.redis.service.RedisService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -31,7 +31,7 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
         log.info ("认证开始....");
         if(smsCodeParam==null){
             log.error ("MobileSMSCodeParam is null");
-            throw new BadCredentialsException (this.messages.getMessage ("401", "Bad MobileSMSCodeParam"));
+            throw new IOAuth2Exception (this.messages.getMessage ("401", "Bad MobileSMSCodeParam"));
         }
     }
 
@@ -44,13 +44,13 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
             String username= param.getUsername ();
             Object obj = redisService.get(CommonConstant.LOGIN_SMS_CODE_KEY+username);
             if(null==smsCode||"".equals (smsCode)){
-                throw  new BadCredentialsException(this.messages.getMessage ("400", "验证码不能为空！"));
+                throw  new IOAuth2Exception(this.messages.getMessage ("400", "验证码不能为空！"));
             }
             if(obj==null || "".equals (obj)){
-                throw  new BadCredentialsException(this.messages.getMessage ("400", "验证码失效，请重新发送！"));
+                throw  new IOAuth2Exception(this.messages.getMessage ("400", "验证码失效，请重新发送！"));
             }
             if(!smsCode.equals (String.valueOf (obj))){
-                throw  new BadCredentialsException(this.messages.getMessage ("400", "验证码不正确！"));
+                throw  new IOAuth2Exception (this.messages.getMessage ("400", "验证码不正确！"));
             }
             loadedUser = userDetailsService.loadUserByUsername (username);
         } catch (UsernameNotFoundException var6) {
