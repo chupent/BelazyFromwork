@@ -21,7 +21,7 @@ public class JwtTokenConfig {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter ();
-        accessTokenConverter.setSigningKey ("shxiang");//设置秘钥
+        accessTokenConverter.setSigningKey ("$2a$10$FIypxkWFK3z2RQLxM86.Ku2oQ7WtFcV3a2FIW8F68VoralDT2fwxa");//设置秘钥(BelazySecret.JWT)
         return accessTokenConverter;
     }
 }

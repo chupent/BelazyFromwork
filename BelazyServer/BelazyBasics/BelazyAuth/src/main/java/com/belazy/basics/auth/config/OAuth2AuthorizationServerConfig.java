@@ -1,5 +1,6 @@
 package com.belazy.basics.auth.config;
 
+import com.belazy.basics.auth.comm.SecurityConstants;
 import com.belazy.basics.auth.exception.IOAuth2WebResponseExceptionTranslator;
 import com.belazy.basics.auth.mobile.MobileSMSCodeTokenGranter;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
 import org.springframework.security.oauth2.provider.implicit.ImplicitTokenGranter;
@@ -31,6 +32,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,12 +54,12 @@ import java.util.List;
 @EnableAuthorizationServer
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-    final private JwtAccessTokenConverter jwtAccessTokenConverter;
-    final private UserDetailsService userDetailsService;
-    final private AuthenticationManager authenticationManager;
-    final private PasswordEncoder passwordEncoder;
-    final private IOAuth2WebResponseExceptionTranslator exceptionTranslator;
-    final private RedisConnectionFactory redisConnectionFactory;
+    private final JwtAccessTokenConverter jwtAccessTokenConverter;
+    private final UserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final IOAuth2WebResponseExceptionTranslator exceptionTranslator;
+    private final RedisConnectionFactory redisConnectionFactory;
+    private final DataSource dataSource;
     @Bean
     public TokenStore redisTokenStore() {
         return new RedisTokenStore (redisConnectionFactory);
@@ -77,13 +79,11 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory () //Token保存在内存中
-                .withClient ("wuzzClientId")//客户端得ID,比如我们在QQ互联中心申请得。可以写多个。配置 循环
-                .secret (passwordEncoder.encode ("wuzzSecret")) // 客户端密钥，需要进行加密
-                .accessTokenValiditySeconds (7200)// token 有效时常  0 永久有效
-                .authorizedGrantTypes ("password", "refresh_token", "authorization_code","sms_code")// 支持得授权类型:支持刷新令牌、密码模式、授权码模式
-                .scopes ("all", "read", "write")//拥有的 scope  可选
-                .redirectUris ("http://www.baidu.com");//回调地址
+        //数据库配置
+        JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
+        clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT_BY_CLIENT_ID);
+        clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
+        clients.withClientDetails(clientDetailsService);
     }
 
     @Override

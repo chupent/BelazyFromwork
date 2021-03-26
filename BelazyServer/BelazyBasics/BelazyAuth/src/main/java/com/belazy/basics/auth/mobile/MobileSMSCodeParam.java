@@ -16,7 +16,6 @@ import java.io.Serializable;
 public class MobileSMSCodeParam implements Serializable {
     private String username;//用户账号
     private String smsCode ;//短信验证码
-
     private String loginType;//登录方式
     private String gatewayType;//登录门户
     private String sysVersion;//设备系统版本
