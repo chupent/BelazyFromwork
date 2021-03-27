@@ -1,7 +1,7 @@
 package com.belazy.basics.auth.mobile;
 
 import com.belazy.basics.auth.exception.IOAuth2Exception;
-import com.belazy.library.core.constant.CommonConstant;
+import com.belazy.library.core.constant.RedisConstant;
 import com.belazy.library.redis.service.RedisService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
             MobileSMSCodeParam param = token.getParam ();
             String smsCode= param.getSmsCode ();
             String username= param.getUsername ();
-            Object obj = redisService.get(CommonConstant.LOGIN_SMS_CODE_KEY+username);
+            Object obj = redisService.get(RedisConstant.LOGIN_SMS_CODE_KEY+username);
             if(null==smsCode||"".equals (smsCode)){
                 throw  new IOAuth2Exception(this.messages.getMessage ("400", "验证码不能为空！"));
             }

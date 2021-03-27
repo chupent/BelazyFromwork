@@ -1,9 +1,13 @@
-package com.belazy.basics.auth.comm;
+package com.belazy.library.core.constant;
 
 /**
  * @author tangcp
  */
 public class SecurityConstants {
+    /**
+     * TOKEN签名
+     */
+    public static final String SIGN_KEY = "$2a$10$FIypxkWFK3z2RQLxM86.Ku2oQ7WtFcV3a2FIW8F68VoralDT2fwxa";
     /**
      * sys_oauth_client_details 字段
      */
@@ -24,4 +28,10 @@ public class SecurityConstants {
      * 根据client_id查询
      */
     public static final String DEFAULT_FIND_STATEMENT_BY_CLIENT_ID = BASE_FIND_STATEMENT + " where client_id = ?";
+    /***
+     * 默认OAuth2开发API
+     */
+    public static final String OPEN_API_OAUTH = "/oauth/**";
+    public static final String OPEN_API_ACTUATOR = "/actuator/**";
+    public static final String OPEN_API_AUTH = "/auth/**";
 }

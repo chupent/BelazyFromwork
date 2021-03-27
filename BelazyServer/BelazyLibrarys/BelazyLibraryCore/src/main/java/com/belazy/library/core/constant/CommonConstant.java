@@ -4,8 +4,7 @@ package com.belazy.library.core.constant;
  * @author tangcp
  */
 public class CommonConstant {
-    /**短信验证码存于Redis KEY前缀*/
-    public static String LOGIN_SMS_CODE_KEY="redis:login:sms:code:key:";
-    /**短信验证码存于Redis 失效时间(单位:秒)*/
-    public static int LOGIN_SMS_CODE_EXPIRE=120;
+    public static final String HEADER_USERTOKEN = "LAZY-USER-TOKEN";
+    public static final String HEADER_CONTENT_TYPE = "Content-Type";
+    public static final String HEADER_CONTENT_TYPE_VAL = "application/json;charset=UTF-8";
 }

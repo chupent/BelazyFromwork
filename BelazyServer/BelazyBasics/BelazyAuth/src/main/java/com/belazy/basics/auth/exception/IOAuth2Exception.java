@@ -1,6 +1,7 @@
 package com.belazy.basics.auth.exception;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
@@ -10,7 +11,6 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
  */
 @JsonSerialize(using = IOAuth2ExceptionSerializer.class)
 public class IOAuth2Exception extends OAuth2Exception {
-    private Integer status = 400;
 
     public IOAuth2Exception(String msg, Throwable t) {
         super (msg, t);
@@ -22,6 +22,6 @@ public class IOAuth2Exception extends OAuth2Exception {
 
     @Override
     public int getHttpErrorCode() {
-        return status;
+        return HttpStatus.BAD_REQUEST.value ();
     }
 }

@@ -1,8 +1,8 @@
 package com.belazy.basics.auth.config;
 
-import com.belazy.basics.auth.comm.SecurityConstants;
 import com.belazy.basics.auth.exception.IOAuth2WebResponseExceptionTranslator;
 import com.belazy.basics.auth.mobile.MobileSMSCodeTokenGranter;
+import com.belazy.library.core.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
