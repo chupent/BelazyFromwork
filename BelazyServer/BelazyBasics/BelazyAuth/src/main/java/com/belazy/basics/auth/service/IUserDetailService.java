@@ -24,6 +24,7 @@ public class IUserDetailService implements UserDetailsService {
         //根据查找到的用户信息判断用户是否被冻结
         String password = passwordEncoder.encode ("123456");
         log.info ("数据库密码是:" + password);
+        //TODO 调用DB真实数据接口
         return new User (username, password, true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList ("admin,ROLE_USER"));
     }
 }

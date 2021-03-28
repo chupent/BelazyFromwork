@@ -71,7 +71,7 @@ public class MobileSMSCodeTokenGranter extends AbstractTokenGranter {
         parameters.remove ("password"); //短信验证码的登录不需要密码，删除
         log.info ("AppParam sysout:{}", appParam);
 
-        Authentication userAuth = new MobileSMSCodeAuthenticationToken (appParam);//TODO ？？？？
+        Authentication userAuth = new MobileSMSCodeAuthenticationToken (appParam);
         ((AbstractAuthenticationToken) userAuth).setDetails (parameters);
         try {
             userAuth = this.authenticationManager.authenticate (userAuth);
