@@ -19,7 +19,6 @@ spring:
       client:
         url: http://localhost:8080
 
-
   redis:
     host: 127.0.0.1
     port: 6379
@@ -37,3 +36,12 @@ spring:
     password: tangcp
     dribver-class-name: com.mysql.jdbc.Driver
     max-active: 1000
+#开启mybatis日志
+logging:
+  level:
+    com.belazy.basics.auth.mapper: debug
+
+#开启驼峰命名
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true

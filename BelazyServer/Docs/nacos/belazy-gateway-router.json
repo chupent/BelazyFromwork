@@ -1,17 +1,17 @@
 [
   {
     "filters": [],
-    "id": "baidu_route",
+    "id": "gateway-belazy-auth",
     "order": 0,
     "predicates": [
       {
         "args": {
-          "pattern": "/baidu"
+          "pattern": "/auth/**"
         },
         "name": "Path"
       }
     ],
-    "uri": "https://www.baidu.com"
+    "uri": "lb://belazy-auth"
   },
   {
     "filters": [],

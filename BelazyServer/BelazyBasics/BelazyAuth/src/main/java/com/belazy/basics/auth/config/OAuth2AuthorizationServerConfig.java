@@ -2,6 +2,7 @@ package com.belazy.basics.auth.config;
 
 import com.belazy.basics.auth.exception.IOAuth2WebResponseExceptionTranslator;
 import com.belazy.basics.auth.mobile.MobileSMSCodeTokenGranter;
+import com.belazy.basics.auth.service.IUserDetailService;
 import com.belazy.library.core.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -55,7 +55,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     private final JwtAccessTokenConverter jwtAccessTokenConverter;
-    private final UserDetailsService userDetailsService;
+    private final IUserDetailService iUserDetailService;
     private final AuthenticationManager authenticationManager;
     private final IOAuth2WebResponseExceptionTranslator exceptionTranslator;
     private final RedisConnectionFactory redisConnectionFactory;
@@ -70,7 +70,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         endpoints
                 .tokenStore (redisTokenStore())
                 .accessTokenConverter (jwtAccessTokenConverter)
-                .userDetailsService (userDetailsService) // 用户信息得服务，一版是都数据库
+                .userDetailsService (iUserDetailService) // 用户信息得服务，一版是都数据库
                 .authenticationManager (authenticationManager)// 认证管理器。
                 .allowedTokenEndpointRequestMethods (HttpMethod.GET, HttpMethod.POST);
         endpoints.tokenGranter (new CompositeTokenGranter (getTokenGranters (endpoints)));//重新这种之定义的Token生成器

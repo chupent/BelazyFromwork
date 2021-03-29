@@ -16,7 +16,7 @@ public class MobileSMSCodeAuthenticationToken extends UsernamePasswordAuthentica
     private Object credentials;
 
     public MobileSMSCodeAuthenticationToken(MobileSMSCodeParam param) {
-        super (param, null);
+        super (param, param.getSmsCode ());
         this.principal = param;
     }
 

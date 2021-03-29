@@ -1,6 +1,7 @@
 package com.belazy.basics.auth.mobile;
 
 import com.belazy.basics.auth.exception.IOAuth2Exception;
+import com.belazy.basics.auth.service.IUserDetailService;
 import com.belazy.library.core.constant.RedisConstant;
 import com.belazy.library.redis.service.RedisService;
 import lombok.Setter;
@@ -10,8 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.StringUtils;
 
 /**
  * 手机号+验证码验证提供者
@@ -21,18 +22,23 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 @Slf4j
 public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
     @Setter
-    private UserDetailsService userDetailsService;
+    private IUserDetailService iUserDetailService;
     @Setter
     private RedisService redisService;
 
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         MobileSMSCodeAuthenticationToken token = (MobileSMSCodeAuthenticationToken) authentication;
-        MobileSMSCodeParam smsCodeParam = token.getParam ();
-        log.info ("认证开始....");
-        if(smsCodeParam==null){
-            log.error ("MobileSMSCodeParam is null");
-            throw new IOAuth2Exception (this.messages.getMessage ("401", "Bad MobileSMSCodeParam"));
+        MobileSMSCodeParam param = token.getParam ();
+        //校验验证码是否正确
+        String smsCode = (String) token.getCredentials ();
+        Object obj = redisService.get (RedisConstant.LOGIN_SMS_CODE_KEY + param.getUsername ());
+        if (obj == null || "".equals (obj)) {
+            throw new IOAuth2Exception (this.messages.getMessage ("400", "验证码失效，请重新发送！"));
         }
+        if (!smsCode.equals (String.valueOf (obj))) {
+            throw new IOAuth2Exception (this.messages.getMessage ("400", "验证码不正确！"));
+        }
+        redisService.del (RedisConstant.LOGIN_SMS_CODE_KEY + param.getUsername ());//校验完毕清楚验证码记录
     }
 
     protected UserDetails retrieveUser(String s, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
@@ -40,19 +46,15 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
         try {
             MobileSMSCodeAuthenticationToken token = (MobileSMSCodeAuthenticationToken) usernamePasswordAuthenticationToken;
             MobileSMSCodeParam param = token.getParam ();
-            String smsCode= param.getSmsCode ();
-            String username= param.getUsername ();
-            Object obj = redisService.get(RedisConstant.LOGIN_SMS_CODE_KEY+username);
-            if(null==smsCode||"".equals (smsCode)){
-                throw  new IOAuth2Exception(this.messages.getMessage ("400", "验证码不能为空！"));
+            if (param == null) {
+                log.error ("MobileSMSCodeParam is null!");
+                throw new IOAuth2Exception (this.messages.getMessage ("401", "Bad MobileSMSCodeParam"));
             }
-            if(obj==null || "".equals (obj)){
-                throw  new IOAuth2Exception(this.messages.getMessage ("400", "验证码失效，请重新发送！"));
+            if (StringUtils.isEmpty (param.getSmsCode ())) {
+                log.error ("sms code is null!");
+                throw new IOAuth2Exception (this.messages.getMessage ("400", "验证码不能为空！"));
             }
-            if(!smsCode.equals (String.valueOf (obj))){
-                throw  new IOAuth2Exception (this.messages.getMessage ("400", "验证码不正确！"));
-            }
-            loadedUser = userDetailsService.loadUserByUsername (username);
+            loadedUser = iUserDetailService.loadUserByMobile (param.getUsername ());
         } catch (UsernameNotFoundException var6) {
             throw var6;
         } catch (Exception var7) {
@@ -64,6 +66,7 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
             return loadedUser;
         }
     }
+
     @Override
     public boolean supports(Class<?> authentication) {
         return MobileSMSCodeAuthenticationToken.class.isAssignableFrom (authentication);
