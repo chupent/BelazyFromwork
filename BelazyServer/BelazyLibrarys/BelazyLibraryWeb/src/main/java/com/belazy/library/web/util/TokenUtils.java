@@ -1,5 +1,8 @@
 package com.belazy.library.web.util;
 
+import com.belazy.library.constant.SecurityConstants;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestAttributes;
@@ -7,7 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-
+import java.util.Base64;
 /**
  * @author tangcp
  */
@@ -43,33 +46,31 @@ public class TokenUtils {
      * @param token
      * @return claim
      */
-//    private static Claims getClaims(String token) {
-//        String key = Base64.getEncoder().encodeToString(SecurityConstants.SIGN_KEY.getBytes());
-//        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-//    }
-
-//    /**
-//     * 获取请求中的userId
-//     *
-//     *
-//     * @return userId
-//     */
-//    public static String getUserId() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        try {
-//            Claims claims = getClaims(token);
-//            String userId = claims.get(UserConstants.USER_ID).toString();
-//
-//            log.info("获取userId成功，值为", userId);
-//            return userId;
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+    private static Claims getClaims(String token) {
+        String key = Base64.getEncoder().encodeToString(SecurityConstants.SIGN_KEY.getBytes());
+        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+    }
+    /**
+     * 获取请求中的userId
+     *
+     *
+     * @return userId
+     */
+    public static String getUserId() {
+        String token = getToken();
+        if (token == null) {
+            return null;
+        }
+        try {
+            Claims claims = getClaims(token);
+            Object o  = claims.get(SecurityConstants.USER_DETAIL);
+            String userId = claims.get(SecurityConstants.USER_DETAIL).toString();
+            log.info("获取userId成功，值为:{}", userId);
+            return userId;
+        }catch (Exception e){
+            return null;
+        }
+    }
 //
 //    /**
 //     * 获取请求中的 username

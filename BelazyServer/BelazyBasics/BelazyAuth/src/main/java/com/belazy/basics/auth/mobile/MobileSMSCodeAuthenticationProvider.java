@@ -30,7 +30,7 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
         MobileSMSCodeAuthenticationToken token = (MobileSMSCodeAuthenticationToken) authentication;
         MobileSMSCodeParam param = token.getParam ();
         //校验验证码是否正确
-        String smsCode = (String) token.getCredentials ();
+        String smsCode =param.getSmsCode ();
         Object obj = redisService.get (RedisConstant.LOGIN_SMS_CODE_KEY + param.getUsername ());
         if (obj == null || "".equals (obj)) {
             throw new IOAuth2Exception (this.messages.getMessage ("400", "验证码失效，请重新发送！"));

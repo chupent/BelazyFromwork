@@ -1,6 +1,7 @@
 package com.belazy.business.test.controller;
 
 import com.belazy.business.test.model.UserEntity;
+import com.belazy.library.web.util.TokenUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class TestController {
     @ApiOperation (value = "测试接口2")
     @GetMapping(value = "/echo/2")
     public String echo2(@RequestParam String user) {
-        log.info ("============================");
+        TokenUtils.getUserId ();
         return "Hello Nacos Discovery username:" + user;
     }
 }

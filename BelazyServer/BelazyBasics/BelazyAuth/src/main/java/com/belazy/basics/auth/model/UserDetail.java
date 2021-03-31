@@ -20,18 +20,22 @@ public class UserDetail implements UserDetails {
     private String phone;
     private String realName;
 
-    private Integer enabled;
-    private Integer accountNonExpired;
-    private Integer accountNonLocked;
-    private Integer credentialsNonExpired;
+    private Integer isAccountEnabled;
+    private Integer isAccountExpired;
+    private Integer isAccountLocked;
+    private Integer isCredentialsExpired;
     private List<String> roles;
 
     public boolean toBoolen(Integer val) {
         return val == 0 ? true : false;
     }
-
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority> ();
+        roles = new ArrayList<> ();
+        roles.add ("AAA");
+        roles.add ("BBB");
+        roles.add ("CCC");
         if (roles != null) {
             for (String r : roles) {
                 authorityList.add (new SimpleGrantedAuthority (r));
@@ -45,18 +49,18 @@ public class UserDetail implements UserDetails {
     }
 
     public boolean isAccountNonExpired() {
-        return toBoolen (this.accountNonExpired);
+        return toBoolen (this.isAccountExpired);
     }
 
     public boolean isAccountNonLocked() {
-        return toBoolen (this.accountNonLocked);
+        return toBoolen (this.isAccountLocked);
     }
 
     public boolean isCredentialsNonExpired() {
-        return toBoolen (this.credentialsNonExpired);
+        return toBoolen (this.isCredentialsExpired);
     }
 
     public boolean isEnabled() {
-        return toBoolen (this.enabled);
+        return toBoolen (this.isAccountEnabled);
     }
 }
