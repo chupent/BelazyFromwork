@@ -11,6 +11,7 @@
 
     <artifactId>BelazyLibrarySwagger</artifactId>
     <dependencies>
+        <!--swagger文档-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
@@ -28,23 +29,18 @@
         </dependency>
         <!--spring boot-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>BelazyLibraryWeb</artifactId>
+            <groupId>com.belazy.library</groupId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
             <exclusions>
                 <exclusion>
-                    <groupId>org.springframework.plugin</groupId>
-                    <artifactId>spring-plugin-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.plugin</groupId>
-                    <artifactId>spring-plugin-metadata</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <artifactId>spring-boot-starter-undertow</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--swagger文档增强-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-micro-spring-boot-starter</artifactId>

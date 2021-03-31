@@ -17,5 +17,7 @@
         <module>BelazyLibraryCore</module>
         <module>BelazyLibrarySwagger</module>
         <module>BelazyLibraryRedis</module>
+        <module>BelazyLibraryWeb</module>
+        <module>BelazyLibraryData</module>
     </modules>
 </project>

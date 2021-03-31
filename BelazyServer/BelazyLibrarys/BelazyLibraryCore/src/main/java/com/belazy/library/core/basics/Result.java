@@ -19,41 +19,83 @@ public class Result<T> {
 
     @ApiModelProperty(value = "响应码:200请求正常，非200请求异常")
     private String code;
+    @ApiModelProperty(value = "标记:true请求成功，false请求失败")
+    private Boolean flag;
     @ApiModelProperty(value = "响应消息")
     private String message;
     @ApiModelProperty(value = "响应内容")
     private T body;
 
-    public static <T> Result<T> success(T body) {
-        return success (body, null);
+    /**
+     * 默认成功
+     *
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> success() {
+        return success (null, SUCCESS_MESSAGE);
     }
 
+    /**
+     * 带数据模型成功
+     *
+     * @param body
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> success(T body) {
+        return success (body, SUCCESS_MESSAGE);
+    }
+
+    /**
+     * 带数据模型、提示消息成功
+     *
+     * @param body
+     * @param message
+     * @param <T>
+     * @return
+     */
     public static <T> Result<T> success(T body, String message) {
         String mMessage = null == message || message.length () <= 0 ? SUCCESS_MESSAGE : message;
         return new Result<T> (SUCCESS_CODE, mMessage, body);
     }
 
+    /**
+     * 默认失败
+     *
+     * @return
+     */
     public static Result fail() {
         return fail (FAIL_MESSAGE);
     }
 
+    /**
+     * 带提示失败
+     *
+     * @param message
+     * @return
+     */
     public static Result fail(String message) {
         return fail (FAIL_CODE, message);
     }
 
+    /**
+     * 带状态码、提示消息失败
+     *
+     * @param code
+     * @param message
+     * @return
+     */
     public static Result fail(String code, String message) {
         String mMessage = null == message || message.length () <= 0 ? FAIL_MESSAGE : message;
         String mCode = null == code || code.length () <= 0 ? FAIL_CODE : code;
         return new Result (mCode, mMessage, null);
     }
 
-
-    public Result() {
-    }
-
     public Result(String code, String message, T body) {
         this.code = code;
         this.message = message;
         this.body = body;
+        this.flag = SUCCESS_CODE.equals (code) ? true : false;
     }
 }
