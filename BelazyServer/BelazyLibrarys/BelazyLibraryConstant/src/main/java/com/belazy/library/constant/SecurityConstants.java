@@ -1,4 +1,4 @@
-package com.belazy.library.core.constant;
+package com.belazy.library.constant;
 
 /**
  * @author tangcp
@@ -34,4 +34,7 @@ public class SecurityConstants {
     public static final String OPEN_API_OAUTH = "/oauth/**";
     public static final String OPEN_API_ACTUATOR = "/actuator/**";
     public static final String OPEN_API_AUTH = "/auth/**";
+
+
+    public static final String USER_DETAIL = "user_detail";
 }

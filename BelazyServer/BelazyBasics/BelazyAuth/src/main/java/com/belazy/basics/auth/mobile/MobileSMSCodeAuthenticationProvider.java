@@ -2,7 +2,7 @@ package com.belazy.basics.auth.mobile;
 
 import com.belazy.basics.auth.exception.IOAuth2Exception;
 import com.belazy.basics.auth.service.IUserDetailService;
-import com.belazy.library.core.constant.RedisConstant;
+import com.belazy.library.constant.RedisConstant;
 import com.belazy.library.redis.service.RedisService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

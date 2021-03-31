@@ -1,7 +1,6 @@
 package com.belazy.basics.gateway.util;
 
 import com.belazy.library.core.basics.Result;
-import com.belazy.library.core.constant.CommonConstant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,7 @@ import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -127,7 +127,7 @@ public class HttpUtil{
             ObjectMapper objectMapper = new ObjectMapper ();
             byte[] bytes = objectMapper.writeValueAsBytes (Result.fail (HttpStatus.UNAUTHORIZED.value () + "", HttpStatus.UNAUTHORIZED.name ()));
             DataBuffer bodyDataBuffer = response.bufferFactory ().wrap (bytes);
-            response.getHeaders ().add (HttpHeaders.CONTENT_TYPE, CommonConstant.HEADER_CONTENT_TYPE_VAL);
+            response.getHeaders ().add (HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
             return response.writeWith (Mono.just (bodyDataBuffer));
         } catch (JsonProcessingException e) {

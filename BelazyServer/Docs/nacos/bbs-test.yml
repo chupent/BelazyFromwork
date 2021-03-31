@@ -1,10 +1,6 @@
 server:
-  port: 8090
-spring:
-  boot:
-    admin:
-      client:
-        url: http://localhost:8080
+  port: 8040
+
 management:
   endpoints:
     web:
@@ -13,3 +9,37 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
+
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8  # 连接池最大连接数（使用负值表示没有限制），默认 8
+        max-wait: -1ms # 连接池最大阻塞等待时间（使用负值表示没有限制），默认 -1ms
+        max-idle: 8 # 连接池中的最大空闲连接，默认 8
+        min-idle: 0 # 连接池中的最小空闲连接，默认 0
+  #数据源配置
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/belazy_base?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL
+    username: root
+    password: tangcp
+    dribver-class-name: com.mysql.jdbc.Driver
+    max-active: 1000
+
+#开启mybatis日志
+logging:
+  level:
+    com.belazy.basics.auth.mapper: debug
+
+#开启驼峰命名
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+

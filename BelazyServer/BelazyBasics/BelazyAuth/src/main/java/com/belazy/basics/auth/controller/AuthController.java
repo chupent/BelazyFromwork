@@ -1,7 +1,7 @@
 package com.belazy.basics.auth.controller;
 
 import com.belazy.library.core.basics.Result;
-import com.belazy.library.core.constant.RedisConstant;
+import com.belazy.library.constant.RedisConstant;
 import com.belazy.library.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

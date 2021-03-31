@@ -19,5 +19,6 @@
         <module>BelazyLibraryRedis</module>
         <module>BelazyLibraryWeb</module>
         <module>BelazyLibraryData</module>
+        <module>BelazyLibraryConstant</module>
     </modules>
 </project>

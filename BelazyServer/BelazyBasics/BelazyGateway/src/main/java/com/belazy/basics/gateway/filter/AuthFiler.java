@@ -1,7 +1,6 @@
 package com.belazy.basics.gateway.filter;
 
 import com.belazy.basics.gateway.util.HttpUtil;
-import com.belazy.library.core.constant.CommonConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -53,7 +52,7 @@ public class AuthFiler implements GlobalFilter, Ordered {
 
         //Token校验
         HttpHeaders headers = request.getHeaders ();
-        String token = headers.getFirst (CommonConstant.HEADER_USER_TOKEN);
+        String token = headers.getFirst (HttpHeaders.AUTHORIZATION);
         if (StringUtils.isEmpty (token)) {
             return HttpUtil.buildUnauthorizedResponse (response);
         }
@@ -63,7 +62,7 @@ public class AuthFiler implements GlobalFilter, Ordered {
         if (null == accessTokenExpire) {
             return HttpUtil.buildUnauthorizedResponse (response);
         }
-        response.getHeaders ().add (CommonConstant.HEADER_USER_TOKEN, token);
+        response.getHeaders ().add (HttpHeaders.AUTHORIZATION, token);
 
         //TODO 判断请求是否协调有效token
         return HttpUtil.httpInfoLog (exchange, chain);

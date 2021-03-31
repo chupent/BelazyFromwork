@@ -2,7 +2,7 @@ package com.belazy.basics.auth.config;
 
 import com.belazy.basics.auth.mobile.MobileSMSCodeAuthenticationProvider;
 import com.belazy.basics.auth.service.IUserDetailService;
-import com.belazy.library.core.constant.SecurityConstants;
+import com.belazy.library.constant.SecurityConstants;
 import com.belazy.library.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
