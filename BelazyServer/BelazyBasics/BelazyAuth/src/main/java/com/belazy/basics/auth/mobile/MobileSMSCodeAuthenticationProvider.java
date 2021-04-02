@@ -28,7 +28,7 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
 
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         MobileSMSCodeAuthenticationToken token = (MobileSMSCodeAuthenticationToken) authentication;
-        MobileSMSCodeParam param = token.getParam ();
+        MobileSMSCode param = token.getParam ();
         //校验验证码是否正确
         String smsCode =param.getSmsCode ();
         Object obj = redisService.get (RedisConstant.LOGIN_SMS_CODE_KEY + param.getUsername ());
@@ -45,7 +45,7 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
         UserDetails loadedUser;
         try {
             MobileSMSCodeAuthenticationToken token = (MobileSMSCodeAuthenticationToken) usernamePasswordAuthenticationToken;
-            MobileSMSCodeParam param = token.getParam ();
+            MobileSMSCode param = token.getParam ();
             if (param == null) {
                 log.error ("MobileSMSCodeParam is null!");
                 throw new IOAuth2Exception (this.messages.getMessage ("401", "Bad MobileSMSCodeParam"));

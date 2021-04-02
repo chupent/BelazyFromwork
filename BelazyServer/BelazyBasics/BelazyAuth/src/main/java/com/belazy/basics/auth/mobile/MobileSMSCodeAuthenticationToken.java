@@ -15,18 +15,18 @@ public class MobileSMSCodeAuthenticationToken extends UsernamePasswordAuthentica
     private Object principal;
     private Object credentials;
 
-    public MobileSMSCodeAuthenticationToken(MobileSMSCodeParam param) {
+    public MobileSMSCodeAuthenticationToken(MobileSMSCode param) {
         super (param, param.getSmsCode ());
         this.principal = param;
     }
 
-    public MobileSMSCodeAuthenticationToken(Object credentials, MobileSMSCodeParam param) {
+    public MobileSMSCodeAuthenticationToken(Object credentials, MobileSMSCode param) {
         super (param, credentials);
         this.credentials = credentials;
         this.principal = param;
     }
 
-    public MobileSMSCodeAuthenticationToken(Object credentials, List<GrantedAuthority> authorities, MobileSMSCodeParam param) {
+    public MobileSMSCodeAuthenticationToken(Object credentials, List<GrantedAuthority> authorities, MobileSMSCode param) {
         super (param, credentials, authorities);
         this.credentials = credentials;
         this.principal = param;
@@ -40,7 +40,7 @@ public class MobileSMSCodeAuthenticationToken extends UsernamePasswordAuthentica
         return principal;
     }
     /**获取入参**/
-    public MobileSMSCodeParam getParam(){
-        return null!=principal?(MobileSMSCodeParam) principal:null;
+    public MobileSMSCode getParam(){
+        return null!=principal?(MobileSMSCode) principal:null;
     }
 }

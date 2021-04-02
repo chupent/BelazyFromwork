@@ -92,6 +92,26 @@ public class Result<T> {
         return new Result (mCode, mMessage, null);
     }
 
+    /**
+     * 认证失败
+     *
+     * @return
+     */
+    public static Result unauthorized() {
+        return Result.unauthorized (null);
+    }
+
+    /**
+     * 认证失败
+     *
+     * @param message
+     * @return
+     */
+    public static Result unauthorized(String message) {
+        String mMessage = null == message || message.length () <= 0 ? "认证失败" : message;
+        return Result.fail ("401", mMessage);
+    }
+
     public Result(String code, String message, T body) {
         this.code = code;
         this.message = message;

@@ -45,3 +45,10 @@ logging:
 mybatis:
   configuration:
     mapUnderscoreToCamelCase: true
+
+#oauth2配置
+oauth:
+  authUri: http://localhost:8010/oauth/token
+  grantType: password
+  clientId: BelazySecretID
+  clientSecret: BelazySecret

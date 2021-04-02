@@ -37,4 +37,11 @@ public class SecurityConstants {
 
 
     public static final String USER_DETAIL = "user_detail";
+
+    public static final String GRANT_TYPE = "grant_type";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String SMS_CODE = "smsCode";
+    public static final String CLIENT_ID = "client_id";
+    public static final String CLIENT_SECRET = "client_secret";
 }

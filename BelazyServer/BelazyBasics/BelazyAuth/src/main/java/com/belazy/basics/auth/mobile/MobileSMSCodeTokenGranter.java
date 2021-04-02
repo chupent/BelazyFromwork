@@ -53,7 +53,7 @@ public class MobileSMSCodeTokenGranter extends AbstractTokenGranter {
     protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
         //获取参数
         Map<String, String> parameters = new LinkedHashMap<String, String> (tokenRequest.getRequestParameters ());
-        MobileSMSCodeParam appParam = new MobileSMSCodeParam ();
+        MobileSMSCode appParam = new MobileSMSCode ();
         try {
             Field[] fields = appParam.getClass ().getDeclaredFields ();
             for (Field f : fields) {
