@@ -1,7 +1,7 @@
 package com.belazy.basics.auth.controller;
 
 import com.belazy.basics.auth.model.in.LoginIN;
-import com.belazy.basics.auth.model.vo.UserInfoVo;
+import com.belazy.basics.auth.model.vo.LoginInfoVo;
 import com.belazy.library.constant.SecurityConstants;
 import com.belazy.library.core.basics.Result;
 import com.belazy.library.constant.RedisConstant;
@@ -61,7 +61,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Result<UserInfoVo> login(@RequestBody LoginIN in, HttpServletRequest request) {
+    public Result<LoginInfoVo> login(@RequestBody LoginIN in, HttpServletRequest request) {
         String username = in.getUsername ();
         if (StringUtils.isEmpty (username)) {
             return Result.fail ("账号不能为空!");
@@ -99,6 +99,7 @@ public class AuthController {
             ObjectMapper mapper = new ObjectMapper ();
             mapper.configure (DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);//忽略匹配不是的字段
             mapper.setPropertyNamingStrategy (PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);//下滑线转驼峰
+            log.info ("result==>{}", result);
             JsonNode jsonNode = mapper.readTree (result);
             if (null != jsonNode) {
                 JsonNode statusNode = jsonNode.get ("status");
@@ -109,10 +110,9 @@ public class AuthController {
                     return Result.fail (status, message);
                 }
             }
-            UserInfoVo userInfoVo = mapper.readValue (result, UserInfoVo.class);
-
+            LoginInfoVo loginInfoVo = mapper.readValue (result, LoginInfoVo.class);
             //TODO 记录登录日志
-            return Result.success (userInfoVo);
+            return Result.success (loginInfoVo);
         } catch (Exception e) {
             log.error ("result==>{}", result);
             return Result.unauthorized ();

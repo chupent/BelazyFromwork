@@ -63,8 +63,8 @@ public class TokenUtils {
         }
         try {
             Claims claims = getClaims(token);
-            Object o  = claims.get(SecurityConstants.USER_DETAIL);
-            String userId = claims.get(SecurityConstants.USER_DETAIL).toString();
+            Object o  = claims.get(SecurityConstants.USER_INFO);
+            String userId = claims.get(SecurityConstants.USER_INFO).toString();
             log.info("获取userId成功，值为:{}", userId);
             return userId;
         }catch (Exception e){

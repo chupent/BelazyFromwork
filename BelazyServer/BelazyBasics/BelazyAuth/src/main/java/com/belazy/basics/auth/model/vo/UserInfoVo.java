@@ -1,20 +1,22 @@
 package com.belazy.basics.auth.model.vo;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
- * 登录响应信息
+ * 用户信息
  * @author tangcp
  */
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserInfoVo implements Serializable {
-    String accessToken;
-    String tokenType;
-    String refreshToken;
-    String expiresIn;
-    String scope;
+    private String userId;
+    private String account;
+    private String name;
+    private String phone;
+    private String nickname;
+    private List<String> roles;
 }

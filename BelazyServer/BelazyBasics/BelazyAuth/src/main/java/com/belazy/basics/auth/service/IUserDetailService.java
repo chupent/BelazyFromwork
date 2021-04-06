@@ -23,12 +23,12 @@ public class IUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetail detail = iUserMapper.findUserByAccount (username);
         log.info ("UserDetail:{}", detail);
-        return User.withUserDetails (detail).build ();
+        return detail;
     }
 
     public UserDetails loadUserByMobile(String mobile) throws UsernameNotFoundException {
         UserDetail detail = iUserMapper.findUserByMobile (mobile);
         log.info ("UserDetail:{}", detail);
-        return User.withUserDetails (detail).build ();
+        return detail;
     }
 }

@@ -2,6 +2,8 @@ package com.belazy.basics.auth.config;
 
 import com.belazy.basics.auth.exception.IOAuth2WebResponseExceptionTranslator;
 import com.belazy.basics.auth.mobile.MobileSMSCodeTokenGranter;
+import com.belazy.basics.auth.model.UserDetail;
+import com.belazy.basics.auth.model.vo.UserInfoVo;
 import com.belazy.basics.auth.service.IUserDetailService;
 import com.belazy.library.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
@@ -107,7 +109,15 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
             // 获取当前登录的用户
             Object o =  oAuth2Authentication.getUserAuthentication ().getPrincipal ();
             if(o!=null){
-                additionMessage.put(SecurityConstants.USER_DETAIL, o);
+                UserDetail detail = (UserDetail) o;
+                UserInfoVo infoVo =new UserInfoVo ();
+                infoVo.setAccount (detail.getAccount ());
+                infoVo.setNickname (detail.getNickname ());
+                infoVo.setPhone (detail.getPhone ());
+                infoVo.setRoles (detail.getRoles ());
+                infoVo.setName (detail.getName ());
+                infoVo.setUserId (detail.getUserId ());
+                additionMessage.put(SecurityConstants.USER_INFO, infoVo);
             }
             ((DefaultOAuth2AccessToken)oAuth2AccessToken).setAdditionalInformation(additionMessage);
             return oAuth2AccessToken;

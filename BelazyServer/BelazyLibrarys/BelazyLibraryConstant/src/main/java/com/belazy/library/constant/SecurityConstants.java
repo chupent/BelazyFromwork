@@ -36,7 +36,7 @@ public class SecurityConstants {
     public static final String OPEN_API_AUTH = "/auth/**";
 
 
-    public static final String USER_DETAIL = "user_detail";
+    public static final String USER_INFO = "user_info";
 
     public static final String GRANT_TYPE = "grant_type";
     public static final String USERNAME = "username";
