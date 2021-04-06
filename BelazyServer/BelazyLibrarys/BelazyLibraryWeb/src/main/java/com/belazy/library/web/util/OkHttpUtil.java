@@ -22,8 +22,13 @@ public class OkHttpUtil {
         try {
             response = okHttpClient.newCall (request).execute ();
             log.info ("Response=>{}",response);
-            if (response.isSuccessful ()) {
-                return response.body ().string ();
+            if(null == response){
+                return null;
+            }
+            ResponseBody responseBody = response.body ();
+            log.error ("ResponseBody=>{}", responseBody);
+            if(null!=responseBody){
+                return responseBody.string ();
             }
         } catch (Exception e) {
             log.error ("okhttp3 post error >> ex = {}", e);

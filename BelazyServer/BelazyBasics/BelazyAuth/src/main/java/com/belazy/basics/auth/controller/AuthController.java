@@ -11,6 +11,7 @@ import com.belazy.library.web.util.OkHttpUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.PropertyNamingStrategy;
@@ -63,7 +64,7 @@ public class AuthController {
     public Result<UserInfoVo> login(@RequestBody LoginIN in, HttpServletRequest request) {
         String username = in.getUsername ();
         if (StringUtils.isEmpty (username)) {
-            return Result.unauthorized ("账号不能为空!");
+            return Result.fail ("账号不能为空!");
         }
         String mGrantType = request.getHeader (SecurityConstants.GRANT_TYPE);
         if (StringUtils.isEmpty (mGrantType)) {
@@ -77,33 +78,43 @@ public class AuthController {
         if (GrantTypeEnum.SMS_CODE.val.equals (mGrantType)) { //手机+短信验证码登录
             String code = in.getSmsCode ();
             if (StringUtils.isEmpty (code)) {
-                return Result.unauthorized ("验证码不能为空!");
+                return Result.fail ("验证码不能为空!");
             }
             param.put (SecurityConstants.SMS_CODE, code);
         } else {
             String pwd = in.getPassword ();
             if (StringUtils.isEmpty (pwd)) {
-                return Result.unauthorized ("密码不能为空!");
+                return Result.fail ("密码不能为空!");
             }
             param.put (SecurityConstants.PASSWORD, pwd);
         }
 
         //调用认证接口
-        String res = OkHttpUtil.builder ().okHttpClient (okHttpClient).build ().post (authUri, param);
+        String result = OkHttpUtil.builder ().okHttpClient (okHttpClient).build ().post (authUri, param);
+        if (StringUtils.isEmpty (result)) {
+            return Result.fail ();
+        }
         try {
             //处理OAuth2结果集
             ObjectMapper mapper = new ObjectMapper ();
-            mapper.configure (DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES,false);//忽略匹配不是的字段
+            mapper.configure (DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);//忽略匹配不是的字段
             mapper.setPropertyNamingStrategy (PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);//下滑线转驼峰
-            UserInfoVo userInfoVo = mapper.readValue (res, UserInfoVo.class);
-            if (null == userInfoVo) {
-                log.error ("result==>{}", res);
-                return Result.unauthorized ();
+            JsonNode jsonNode = mapper.readTree (result);
+            if (null != jsonNode) {
+                JsonNode statusNode = jsonNode.get ("status");
+                if(null!=statusNode){
+                    JsonNode messageNode = jsonNode.get ("message");
+                    String message = messageNode.asText ();
+                    String status = statusNode.asText ();
+                    return Result.fail (status, message);
+                }
             }
-            //记录登录日志
+            UserInfoVo userInfoVo = mapper.readValue (result, UserInfoVo.class);
+
+            //TODO 记录登录日志
             return Result.success (userInfoVo);
         } catch (Exception e) {
-            log.error ("result==>{}", res);
+            log.error ("result==>{}", result);
             return Result.unauthorized ();
         }
     }

@@ -63,8 +63,6 @@ public class AuthFiler implements GlobalFilter, Ordered {
             return HttpUtil.buildUnauthorizedResponse (response);
         }
         response.getHeaders ().add (HttpHeaders.AUTHORIZATION, token);
-
-        //TODO 判断请求是否协调有效token
         return HttpUtil.httpInfoLog (exchange, chain);
     }
     @Override
