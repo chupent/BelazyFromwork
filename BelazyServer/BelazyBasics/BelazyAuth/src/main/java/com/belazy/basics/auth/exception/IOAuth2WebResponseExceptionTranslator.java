@@ -56,11 +56,6 @@ public class IOAuth2WebResponseExceptionTranslator implements WebResponseExcepti
     private ResponseEntity<OAuth2Exception> handleOAuth2Exception(OAuth2Exception e) {
         int status = e.getHttpErrorCode ();
         HttpHeaders headers = new HttpHeaders ();
-        headers.set (HttpHeaders.CACHE_CONTROL, "no-store");
-        headers.set (HttpHeaders.PRAGMA, "no-cache");
-        if (status == HttpStatus.UNAUTHORIZED.value () || e instanceof InsufficientScopeException) {
-            headers.set (HttpHeaders.WWW_AUTHENTICATE, String.format ("%s %s", "Bearer", e.getSummary ()));
-        }
         ResponseEntity<OAuth2Exception> response = new ResponseEntity (e, headers, HttpStatus.valueOf (status));
         return response;
     }

@@ -1,7 +1,6 @@
 package com.belazy.basics.auth.exception;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
