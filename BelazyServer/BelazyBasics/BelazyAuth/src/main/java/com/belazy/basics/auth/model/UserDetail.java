@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class UserDetail implements UserDetails {
     private static final long serialVersionUID = 1L;
-    private String userId;
+    private String id;
     private String account;
     private String password;
     private String name;

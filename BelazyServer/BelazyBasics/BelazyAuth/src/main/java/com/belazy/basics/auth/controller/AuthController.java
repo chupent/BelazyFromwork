@@ -99,11 +99,13 @@ public class AuthController {
             ObjectMapper mapper = new ObjectMapper ();
             mapper.configure (DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);//忽略匹配不是的字段
             mapper.setPropertyNamingStrategy (PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);//下滑线转驼峰
+
+
             log.info ("result==>{}", result);
             JsonNode jsonNode = mapper.readTree (result);
             if (null != jsonNode) {
                 JsonNode statusNode = jsonNode.get ("status");
-                if(null!=statusNode){
+                if (null != statusNode) {
                     JsonNode messageNode = jsonNode.get ("message");
                     String message = messageNode.asText ();
                     String status = statusNode.asText ();

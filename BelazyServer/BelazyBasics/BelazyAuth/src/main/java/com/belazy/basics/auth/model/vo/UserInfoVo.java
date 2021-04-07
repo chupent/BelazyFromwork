@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInfoVo implements Serializable {
-    private String userId;
+    private String id;
     private String account;
     private String name;
     private String phone;
