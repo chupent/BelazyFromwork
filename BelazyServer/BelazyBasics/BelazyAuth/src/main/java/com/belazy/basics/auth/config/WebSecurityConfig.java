@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,14 +29,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     final private RedisService redisService;
 
     @Override
+    public void configure(WebSecurity web) {
+        web.ignoring ().antMatchers (SecurityConstants.IGNORING_RESOURCES);
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config =
                 http.requestMatchers ().anyRequest ().and ().authorizeRequests ();
-
         config
-                .antMatchers (SecurityConstants.OPEN_API_OAUTH).permitAll ()
-                .antMatchers (SecurityConstants.OPEN_API_AUTH).permitAll ()
-                .antMatchers (SecurityConstants.OPEN_API_ACTUATOR).permitAll ()
+                .antMatchers (SecurityConstants.OPEN_API).permitAll ()
                 .anyRequest ()
                 .authenticated ()
                 .and ().csrf ().disable ();

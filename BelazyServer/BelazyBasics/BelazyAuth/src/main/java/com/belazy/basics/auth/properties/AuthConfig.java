@@ -1,4 +1,4 @@
-package com.belazy.basics.auth.config;
+package com.belazy.basics.auth.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

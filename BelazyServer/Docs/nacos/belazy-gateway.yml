@@ -61,3 +61,4 @@ hystrix:
 bgateway:
   dataId: belazy-gateway-router
   group: BELAZY-GROUP
+  openResources:

@@ -1,11 +1,12 @@
 package com.belazy.library.swagger.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.*;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.*;
@@ -14,6 +15,9 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * @author tangcp
@@ -24,12 +28,15 @@ import java.util.List;
 public class Swagger3Config {
     @Value ("${spring.application.name}")
     private String appName;
+    // 定义分隔符,配置Swagger多包
+    private static final String splitor = ";";
     @Bean
     public Docket createRestApi() {
         return new Docket (DocumentationType.OAS_30)
                 .apiInfo (apiInfo ())
                 .select ()
-                .apis (RequestHandlerSelectors.basePackage ("com.belazy.business"))
+                .apis (RequestHandlerSelectors.withClassAnnotation (RestController.class))
+                .apis (basePackage ("com.belazy.business;com.belazy.basics"))
                 .paths (PathSelectors.any ())
                 .build ()
                 .globalRequestParameters (getGlobalRequestParameters ())
@@ -39,6 +46,27 @@ public class Swagger3Config {
                 .globalResponses (HttpMethod.PUT, getGlobalResponseMessage ());
 
     }
+
+
+    public Predicate<RequestHandler> basePackage(String basePackage) {
+        return input->  declaringClass (input).map (handlerPackage (basePackage)).orElse (true);
+    }
+    private Optional<Class<?>> declaringClass(RequestHandler input) {
+        return Optional.ofNullable (input.declaringClass ());
+    }
+    private Function<Class<?>, Boolean> handlerPackage(final String basePackage) {
+        return input -> {
+            // 循环判断匹配
+            for (String strPackage : basePackage.split(splitor)) {
+                boolean isMatch = input.getPackage().getName().startsWith(strPackage);
+                if (isMatch) {
+                    return true;
+                }
+            }
+            return false;
+        };
+    }
+
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder ()
@@ -66,7 +94,7 @@ public class Swagger3Config {
 
         parameters.add (new RequestParameterBuilder ()
                 .name ("Equipment-Type")
-                .description ("产品类型")
+                .description ("API接口文档")
                 .required (false)
                 .in (ParameterType.HEADER)
                 .build ());

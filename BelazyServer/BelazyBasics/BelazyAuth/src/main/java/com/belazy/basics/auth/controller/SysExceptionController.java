@@ -5,6 +5,7 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * 错误全局处理
  * @author tangcp
  */
+@ApiIgnore
 @RestController
 public class SysExceptionController implements ErrorController {
     public String getErrorPath() {

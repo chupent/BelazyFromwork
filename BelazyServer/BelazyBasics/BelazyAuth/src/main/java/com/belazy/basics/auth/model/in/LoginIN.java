@@ -16,9 +16,9 @@ public class LoginIN implements Serializable {
     @ApiModelProperty(value = "登录来源:App手机应用 Web应用",required = true)
     private String source;
 
-    @ApiModelProperty("密码")
+    @ApiModelProperty("密码(GRANT_TYPE=password时必填)")
     private String password;
-    @ApiModelProperty("短信验证码")
+    @ApiModelProperty("短信验证码(GRANT_TYPE=sms_code时必填)")
     private String smsCode ;
     @ApiModelProperty("设备系统版本")
     private String sysVersion;

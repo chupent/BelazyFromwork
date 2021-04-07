@@ -8,6 +8,9 @@ import com.belazy.library.constant.RedisConstant;
 import com.belazy.library.core.enums.GrantTypeEnum;
 import com.belazy.library.redis.service.RedisService;
 import com.belazy.library.web.util.OkHttpUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
@@ -29,10 +32,11 @@ import java.util.Map;
 /**
  * @author tangcp
  */
-@RestController
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@RequestMapping("/auth")
 @Slf4j
+@Api(tags = "认证相关")
+@RestController
+@RequestMapping("/auth")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthController {
     private final RedisService redisService;
     private final ConsumerTokenServices consumerTokenServices;
@@ -47,7 +51,8 @@ public class AuthController {
 
 
     @PostMapping("/sendLoginSmsCode")
-    public Result<Boolean> sendSmsCode(@RequestParam("moible") String moible) {
+    @ApiOperation (value = "发送登录短信验证码")
+    public Result<Boolean> sendSmsCode(@ApiParam("手机号码") @RequestParam("moible") String moible) {
         Object obj = redisService.get (RedisConstant.LOGIN_SMS_CODE_KEY + moible);
         if (!StringUtils.isEmpty (obj)) {
             return Result.fail ("已发送短信验证码，请稍后再试!");
@@ -57,6 +62,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
+    @ApiOperation(value = "登出接口")
     public Result<Boolean> logout(HttpServletRequest request) {
         String token = request.getHeader (HttpHeaders.AUTHORIZATION);
         String tokenValue = token.split (" ")[1];
@@ -64,6 +70,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @ApiOperation (value = "登录接口",response = LoginInfoVo.class)
     public Result<LoginInfoVo> login(@RequestBody LoginIN in, HttpServletRequest request) {
         String username = in.getUsername ();
         if (StringUtils.isEmpty (username)) {

@@ -28,12 +28,30 @@ public class SecurityConstants {
      * 根据client_id查询
      */
     public static final String DEFAULT_FIND_STATEMENT_BY_CLIENT_ID = BASE_FIND_STATEMENT + " where client_id = ?";
-    /***
-     * 默认OAuth2开发API
-     */
-    public static final String OPEN_API_OAUTH = "/oauth/**";
-    public static final String OPEN_API_ACTUATOR = "/actuator/**";
-    public static final String OPEN_API_AUTH = "/auth/**";
+
+    public static final String[] OPEN_API = new String[]{
+            "/oauth/**",
+            "/actuator/**",
+            "/auth/**",
+            "/v2/api-docs/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
+    /**静态资源**/
+    public static final String[] IGNORING_RESOURCES = new String[]{
+            "/v3/api-docs",
+            "/v2/api-docs",
+            "/swagger-resources/configuration/ui",
+            "/swagger-resources",
+            "/swagger-resources/configuration/security",
+            "/swagger-ui.html",
+            "/css/**",
+            "/js/**",
+            "/images/**",
+            "/webjars/**",
+            "**/favicon.ico",
+            "/index"
+    };
 
 
     public static final String USER_INFO = "user_info";
