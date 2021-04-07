@@ -1,6 +1,6 @@
 spring:
   application:
-    name: bbs-capp
+    name: bbs-common
   cloud:
     nacos:
       discovery: #nacos注册地址

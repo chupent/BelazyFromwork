@@ -10,7 +10,7 @@
     </parent>
 
     <modules>
-        <module>BBS-ConsumerApp</module>
+        <module>BBS-Common</module>
         <module>BBS-TEST</module>
     </modules>
 

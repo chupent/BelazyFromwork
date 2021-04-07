@@ -15,17 +15,17 @@
   },
   {
     "filters": [],
-    "id": "gateway-bbs-capp",
+    "id": "gateway-bbs-common",
     "order": 0,
     "predicates": [
       {
         "args": {
-          "pattern": "/capp/**"
+          "pattern": "/common/**"
         },
         "name": "Path"
       }
     ],
-    "uri": "lb://bbs-capp"
+    "uri": "lb://bbs-common"
   },
   {
     "filters": [],
