@@ -17,6 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.PropertyNamingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class AuthController {
     private String authUri;
 
 
-    @PostMapping("/sendSmsCode")
+    @PostMapping("/sendLoginSmsCode")
     public Result<Boolean> sendSmsCode(@RequestParam("moible") String moible) {
         Object obj = redisService.get (RedisConstant.LOGIN_SMS_CODE_KEY + moible);
         if (!StringUtils.isEmpty (obj)) {
@@ -56,8 +57,10 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public Result<Boolean> logout(@RequestParam("token") String token) {
-        return consumerTokenServices.revokeToken (token) ? Result.success () : Result.fail ("token 失效!");
+    public Result<Boolean> logout(HttpServletRequest request) {
+        String token = request.getHeader (HttpHeaders.AUTHORIZATION);
+        String tokenValue = token.split (" ")[1];
+        return consumerTokenServices.revokeToken (tokenValue) ? Result.success () : Result.fail ("token 失效!");
     }
 
     @PostMapping("/login")
@@ -99,7 +102,6 @@ public class AuthController {
             ObjectMapper mapper = new ObjectMapper ();
             mapper.configure (DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);//忽略匹配不是的字段
             mapper.setPropertyNamingStrategy (PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);//下滑线转驼峰
-
 
             log.info ("result==>{}", result);
             JsonNode jsonNode = mapper.readTree (result);

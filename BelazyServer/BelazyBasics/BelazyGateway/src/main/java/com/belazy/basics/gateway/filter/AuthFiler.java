@@ -3,6 +3,7 @@ package com.belazy.basics.gateway.filter;
 import com.belazy.basics.gateway.util.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -15,6 +16,9 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * AUTO鉴权
  *
@@ -25,11 +29,20 @@ import org.apache.commons.lang3.StringUtils;
 public class AuthFiler implements GlobalFilter, Ordered {
     @Autowired
     private RedisTemplate<String, String> jsonRedisTemplate;
-    
-    //开发资源
-    private static final String[] OPEN_RESOURCES = new String[]{"/v2/api-docs"};
+    @Value("${bgateway.openResources}")
+    private List<String> openResources;//配置文件中配置开放资源
+
+    //默认开放资源
+    private static final List<String> OPEN_RESOURCES = Arrays.asList ("/v2/api-docs", "/auth/login", "/auth/sendLoginSmsCode");
 
     private boolean checkOpenApi(String openApi) {
+        if (null != openApi && openResources.size () > 0) {
+            for (String openResources : openResources) {
+                if (StringUtils.contains (openApi, openResources)) {
+                    return true;
+                }
+            }
+        }
         for (String openResources : OPEN_RESOURCES) {
             if (StringUtils.contains (openApi, openResources)) {
                 return true;
@@ -65,6 +78,7 @@ public class AuthFiler implements GlobalFilter, Ordered {
         response.getHeaders ().add (HttpHeaders.AUTHORIZATION, token);
         return HttpUtil.httpInfoLog (exchange, chain);
     }
+
     @Override
     public int getOrder() {
         return -100;
