@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 全局响应数据模型
  *
@@ -11,7 +13,7 @@ import lombok.Data;
  */
 @ApiModel(value = "系统全局数据响应模型")
 @Data
-public class Result<T> {
+public class Result<T> implements Serializable {
     public static final String SUCCESS_CODE = "200";
     public static final String SUCCESS_MESSAGE = "request success!";
     public static final String FAIL_CODE = "400";
@@ -20,7 +22,7 @@ public class Result<T> {
     @ApiModelProperty(value = "响应码:200请求正常，非200请求异常")
     private String code;
     @ApiModelProperty(value = "标记:true请求成功，false请求失败")
-    private Boolean flag;
+    private Boolean isSuccess;
     @ApiModelProperty(value = "响应消息")
     private String message;
     @ApiModelProperty(value = "响应内容")
@@ -112,10 +114,13 @@ public class Result<T> {
         return Result.fail ("401", mMessage);
     }
 
+    public Result() {
+    }
+
     public Result(String code, String message, T body) {
         this.code = code;
         this.message = message;
         this.body = body;
-        this.flag = SUCCESS_CODE.equals (code) ? true : false;
+        this.isSuccess = SUCCESS_CODE.equals (code) ? true : false;
     }
 }

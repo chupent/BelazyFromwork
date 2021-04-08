@@ -1,4 +1,4 @@
-package com.belazy.business.consumer;
+package com.belazy.business.common;
 
 import com.belazy.library.core.log.ConsoleUtil;
 import org.springframework.boot.SpringApplication;
@@ -8,8 +8,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.net.UnknownHostException;
-
 /**
  * @author tangcp
  */
@@ -17,9 +15,9 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @EnableFeignClients(basePackages = {"com.belazy.business.api.feign"})
 @ComponentScan(basePackages = {"com.belazy"})
-public class ConsumerAppRunApplication {
+public class CommonRunApplication {
     public static void main(String[] args)  {
-        ApplicationContext applicationContext = SpringApplication.run (ConsumerAppRunApplication.class, args);
+        ApplicationContext applicationContext = SpringApplication.run (CommonRunApplication.class, args);
         ConsoleUtil.startBusinessServerLog (applicationContext);
     }
 }
