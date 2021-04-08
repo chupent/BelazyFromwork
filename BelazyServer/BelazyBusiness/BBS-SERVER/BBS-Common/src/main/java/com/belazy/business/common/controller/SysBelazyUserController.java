@@ -1,6 +1,6 @@
 package com.belazy.business.common.controller;
 
-import com.belazy.library.core.basics.BaseController;
+import com.belazy.library.core.basics.BasicController;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(tags = "用户信息相关")
-public class SysBelazyUserController extends BaseController  {
+public class SysBelazyUserController extends BasicController {
 
 }
