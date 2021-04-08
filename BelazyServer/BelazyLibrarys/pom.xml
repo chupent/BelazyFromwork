@@ -20,5 +20,6 @@
         <module>BelazyLibraryWeb</module>
         <module>BelazyLibraryData</module>
         <module>BelazyLibraryConstant</module>
+        <module>BelazyLibraryModel</module>
     </modules>
 </project>

@@ -1,4 +1,4 @@
-package com.belazy.library.core.enums;
+package com.belazy.library.model.enums;
 
 /**
  * 访问来源

@@ -3,7 +3,7 @@ package com.belazy.business.test.controller;
 import com.belazy.business.api.feign.ISysBelazyUserFeign;
 import com.belazy.business.api.vo.UserVo;
 import com.belazy.business.test.model.UserEntity;
-import com.belazy.library.core.basics.Result;
+import com.belazy.library.model.Result;
 import com.belazy.library.web.util.TokenUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

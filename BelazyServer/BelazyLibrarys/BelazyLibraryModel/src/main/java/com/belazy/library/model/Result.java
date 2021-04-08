@@ -1,4 +1,4 @@
-package com.belazy.library.core.basics;
+package com.belazy.library.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

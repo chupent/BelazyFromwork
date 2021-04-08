@@ -1,4 +1,4 @@
-package com.belazy.library.core.basics;
+package com.belazy.library.model.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

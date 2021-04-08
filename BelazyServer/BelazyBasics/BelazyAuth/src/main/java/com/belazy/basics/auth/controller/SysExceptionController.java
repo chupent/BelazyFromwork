@@ -1,6 +1,6 @@
 package com.belazy.basics.auth.controller;
 
-import com.belazy.library.core.basics.Result;
+import com.belazy.library.model.Result;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -2,7 +2,7 @@ package com.belazy.business.common.controller.feign;
 
 import com.belazy.business.api.feign.ISysBelazyUserFeign;
 import com.belazy.business.api.vo.UserVo;
-import com.belazy.library.core.basics.Result;
+import com.belazy.library.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;

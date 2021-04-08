@@ -1,6 +1,6 @@
 package com.belazy.basics.gateway.util;
 
-import com.belazy.library.core.basics.Result;
+import com.belazy.library.model.Result;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

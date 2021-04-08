@@ -3,7 +3,7 @@ package com.belazy.business.api.feign;
 import com.belazy.business.api.feign.fallback.SysBelazyUserFallback;
 import com.belazy.business.api.vo.UserVo;
 import com.belazy.library.constant.AppConstant;
-import com.belazy.library.core.basics.Result;
+import com.belazy.library.model.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

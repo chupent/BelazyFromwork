@@ -1,6 +1,6 @@
 package com.belazy.basics.gateway.controller;
 
-import com.belazy.library.core.basics.Result;
+import com.belazy.library.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
