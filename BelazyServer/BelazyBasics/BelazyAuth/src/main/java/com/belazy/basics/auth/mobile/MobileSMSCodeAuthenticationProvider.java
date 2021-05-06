@@ -25,7 +25,7 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
     private IUserDetailService iUserDetailService;
     @Setter
     private RedisService redisService;
-
+    private final String ERROR_CODE = "400";
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         MobileSMSCodeAuthenticationToken token = (MobileSMSCodeAuthenticationToken) authentication;
         MobileSMSCode param = token.getParam ();
@@ -33,10 +33,10 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
         String smsCode =param.getSmsCode ();
         Object obj = redisService.get (RedisConstant.LOGIN_SMS_CODE_KEY + param.getUsername ());
         if (obj == null || "".equals (obj)) {
-            throw new IOAuth2Exception (this.messages.getMessage ("400", "验证码失效，请重新发送！"));
+            throw new IOAuth2Exception (this.messages.getMessage (ERROR_CODE, "验证码失效，请重新发送！"));
         }
         if (!smsCode.equals (String.valueOf (obj))) {
-            throw new IOAuth2Exception (this.messages.getMessage ("400", "验证码不正确！"));
+            throw new IOAuth2Exception (this.messages.getMessage (ERROR_CODE, "验证码不正确！"));
         }
         redisService.del (RedisConstant.LOGIN_SMS_CODE_KEY + param.getUsername ());//校验完毕清楚验证码记录
     }
@@ -48,11 +48,11 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
             MobileSMSCode param = token.getParam ();
             if (param == null) {
                 log.error ("MobileSMSCodeParam is null!");
-                throw new IOAuth2Exception (this.messages.getMessage ("401", "Bad MobileSMSCodeParam"));
+                throw new IOAuth2Exception (this.messages.getMessage (ERROR_CODE, "Bad MobileSMSCodeParam"));
             }
             if (StringUtils.isEmpty (param.getSmsCode ())) {
                 log.error ("sms code is null!");
-                throw new IOAuth2Exception (this.messages.getMessage ("400", "验证码不能为空！"));
+                throw new IOAuth2Exception (this.messages.getMessage (ERROR_CODE, "验证码不能为空！"));
             }
             loadedUser = iUserDetailService.loadUserByMobile (param.getUsername ());
         } catch (UsernameNotFoundException var6) {
