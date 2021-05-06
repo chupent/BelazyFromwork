@@ -34,19 +34,19 @@ public class IOAuth2WebResponseExceptionTranslator implements WebResponseExcepti
             if (null != throwable) {
                 if (throwable instanceof OAuth2Exception) {//异常链中有OAuth2Exception异常
                     if(throwable instanceof InvalidGrantException){
-                        return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.UNAUTHORIZED.value (), "授权失败，账号或密码错误！", throwable));
+                        return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.BAD_REQUEST.value (), "授权失败，账号或密码错误！", throwable));
                     }else {
-                        return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.UNAUTHORIZED.value (), "授权失败", throwable));
+                        return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.BAD_REQUEST.value (), "授权失败", throwable));
                     }
                 }
                 if (throwable instanceof AuthenticationException) {//身份验证相关异常
-                    return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.UNAUTHORIZED.value (), "授权失败，账号或密码错误！", throwable));
+                    return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.BAD_REQUEST.value (), "授权失败，账号或密码错误！", throwable));
                 }
                 if (throwable instanceof AccessDeniedException) {//异常链中包含拒绝访问异常
                     return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.FORBIDDEN.value (), "拒绝访问", throwable));
                 }
                 if (throwable instanceof HttpRequestMethodNotSupportedException) {//异常链中包含Http方法请求异常
-                    return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.METHOD_NOT_ALLOWED.value (), "HTTP请求方法异常", throwable));
+                    return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.BAD_REQUEST.value (), "HTTP请求方法异常", throwable));
                 }
             }
         }
