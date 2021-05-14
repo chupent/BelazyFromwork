@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.belazy.basics.admin</groupId>
     <artifactId>BelazyAdmin</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
