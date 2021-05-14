@@ -15,7 +15,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- *@author tangcp
+ * @author tangcp
  */
 public class RandomUtil {
 
@@ -40,7 +40,7 @@ public class RandomUtil {
      * @since 3.1.2
      */
     public static ThreadLocalRandom getRandom() {
-        return ThreadLocalRandom.current();
+        return ThreadLocalRandom.current ();
     }
 
     /**
@@ -51,7 +51,7 @@ public class RandomUtil {
      * @since 4.6.5
      */
     public static SecureRandom createSecureRandom(byte[] seed) {
-        return (null == seed) ? new SecureRandom() : new SecureRandom(seed);
+        return (null == seed) ? new SecureRandom () : new SecureRandom (seed);
     }
 
     /**
@@ -66,7 +66,7 @@ public class RandomUtil {
      */
     public static SecureRandom getSecureRandom() {
         try {
-            return SecureRandom.getInstance("SHA1PRNG");
+            return SecureRandom.getInstance ("SHA1PRNG");
         } catch (NoSuchAlgorithmException e) {
             return null;
         }
@@ -82,7 +82,7 @@ public class RandomUtil {
      * @since 4.1.15
      */
     public static Random getRandom(boolean isSecure) {
-        return isSecure ? getSecureRandom() : getRandom();
+        return isSecure ? getSecureRandom () : getRandom ();
     }
 
     /**
@@ -92,7 +92,7 @@ public class RandomUtil {
      * @since 4.5.9
      */
     public static boolean randomBoolean() {
-        return 0 == randomInt(2);
+        return 0 == randomInt (2);
     }
 
     /**
@@ -103,7 +103,7 @@ public class RandomUtil {
      * @return 随机数
      */
     public static int randomInt(int min, int max) {
-        return getRandom().nextInt(min, max);
+        return getRandom ().nextInt (min, max);
     }
 
     /**
@@ -112,7 +112,7 @@ public class RandomUtil {
      * @return 随机数
      */
     public static int randomInt() {
-        return getRandom().nextInt();
+        return getRandom ().nextInt ();
     }
 
     /**
@@ -122,7 +122,7 @@ public class RandomUtil {
      * @return 随机数
      */
     public static int randomInt(int limit) {
-        return getRandom().nextInt(limit);
+        return getRandom ().nextInt (limit);
     }
 
     /**
@@ -134,7 +134,7 @@ public class RandomUtil {
      * @since 3.3.0
      */
     public static long randomLong(long min, long max) {
-        return getRandom().nextLong(min, max);
+        return getRandom ().nextLong (min, max);
     }
 
     /**
@@ -144,7 +144,7 @@ public class RandomUtil {
      * @since 3.3.0
      */
     public static long randomLong() {
-        return getRandom().nextLong();
+        return getRandom ().nextLong ();
     }
 
     /**
@@ -154,7 +154,7 @@ public class RandomUtil {
      * @return 随机数
      */
     public static long randomLong(long limit) {
-        return getRandom().nextLong(limit);
+        return getRandom ().nextLong (limit);
     }
 
     /**
@@ -166,7 +166,7 @@ public class RandomUtil {
      * @since 3.3.0
      */
     public static double randomDouble(double min, double max) {
-        return getRandom().nextDouble(min, max);
+        return getRandom ().nextDouble (min, max);
     }
 
     /**
@@ -176,7 +176,7 @@ public class RandomUtil {
      * @since 3.3.0
      */
     public static double randomDouble() {
-        return getRandom().nextDouble();
+        return getRandom ().nextDouble ();
     }
 
     /**
@@ -187,7 +187,7 @@ public class RandomUtil {
      * @since 3.3.0
      */
     public static double randomDouble(double limit) {
-        return getRandom().nextDouble(limit);
+        return getRandom ().nextDouble (limit);
     }
 
     /**
@@ -198,7 +198,7 @@ public class RandomUtil {
      */
     public static byte[] randomBytes(int length) {
         byte[] bytes = new byte[length];
-        getRandom().nextBytes(bytes);
+        getRandom ().nextBytes (bytes);
         return bytes;
     }
 
@@ -210,7 +210,7 @@ public class RandomUtil {
      * @return 随机元素
      */
     public static <T> T randomEle(List<T> list) {
-        return randomEle(list, list.size());
+        return randomEle (list, list.size ());
     }
 
     /**
@@ -222,7 +222,7 @@ public class RandomUtil {
      * @return 随机元素
      */
     public static <T> T randomEle(List<T> list, int limit) {
-        return list.get(randomInt(limit));
+        return list.get (randomInt (limit));
     }
 
     /**
@@ -234,7 +234,7 @@ public class RandomUtil {
      * @since 3.3.0
      */
     public static <T> T randomEle(T[] array) {
-        return randomEle(array, array.length);
+        return randomEle (array, array.length);
     }
 
     /**
@@ -247,7 +247,7 @@ public class RandomUtil {
      * @since 3.3.0
      */
     public static <T> T randomEle(T[] array, int limit) {
-        return array[randomInt(limit)];
+        return array[randomInt (limit)];
     }
 
     /**
@@ -259,10 +259,10 @@ public class RandomUtil {
      * @return 随机元素
      */
     public static <T> List<T> randomEles(List<T> list, int count) {
-        final List<T> result = new ArrayList<>(count);
-        int limit = list.size();
-        while (result.size() < count) {
-            result.add(randomEle(list, limit));
+        final List<T> result = new ArrayList<> (count);
+        int limit = list.size ();
+        while (result.size () < count) {
+            result.add (randomEle (list, limit));
         }
 
         return result;
@@ -275,7 +275,7 @@ public class RandomUtil {
      * @return 随机字符串
      */
     public static String randomString(int length) {
-        return randomString(BASE_CHAR_NUMBER, length);
+        return randomString (BASE_CHAR_NUMBER, length);
     }
 
     /**
@@ -286,7 +286,7 @@ public class RandomUtil {
      * @since 4.0.13
      */
     public static String randomStringUpper(int length) {
-        return randomString(BASE_CHAR_NUMBER, length).toUpperCase();
+        return randomString (BASE_CHAR_NUMBER, length).toUpperCase ();
     }
 
     /**
@@ -296,7 +296,7 @@ public class RandomUtil {
      * @return 随机字符串
      */
     public static String randomNumbers(int length) {
-        return randomString(BASE_NUMBER, length);
+        return randomString (BASE_NUMBER, length);
     }
 
     /**
@@ -307,20 +307,20 @@ public class RandomUtil {
      * @return 随机字符串
      */
     public static String randomString(String baseString, int length) {
-        if (StringUtil.isEmpty(baseString)) {
+        if (StringUtil.isEmpty (baseString)) {
             return StringUtil.EMPTY;
         }
-        final StringBuilder sb = new StringBuilder(length);
+        final StringBuilder sb = new StringBuilder (length);
 
         if (length < 1) {
             length = 1;
         }
-        int baseLength = baseString.length();
+        int baseLength = baseString.length ();
         for (int i = 0; i < length; i++) {
-            int number = randomInt(baseLength);
-            sb.append(baseString.charAt(number));
+            int number = randomInt (baseLength);
+            sb.append (baseString.charAt (number));
         }
-        return sb.toString();
+        return sb.toString ();
     }
 
     /**
@@ -330,7 +330,7 @@ public class RandomUtil {
      * @since 3.1.2
      */
     public static int randomNumber() {
-        return randomChar(BASE_NUMBER);
+        return randomChar (BASE_NUMBER);
     }
 
     /**
@@ -340,7 +340,7 @@ public class RandomUtil {
      * @since 3.1.2
      */
     public static char randomChar() {
-        return randomChar(BASE_CHAR_NUMBER);
+        return randomChar (BASE_CHAR_NUMBER);
     }
 
     /**
@@ -351,6 +351,6 @@ public class RandomUtil {
      * @since 3.1.2
      */
     public static char randomChar(String baseString) {
-        return baseString.charAt(randomInt(baseString.length()));
+        return baseString.charAt (randomInt (baseString.length ()));
     }
 }

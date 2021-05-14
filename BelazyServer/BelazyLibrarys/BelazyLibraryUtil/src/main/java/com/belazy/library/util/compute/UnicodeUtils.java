@@ -5,17 +5,17 @@ package com.belazy.library.util.compute;
  */
 public class UnicodeUtils {
     public static String native2ascii(String code) {
-        char[] chars = code.toCharArray();
+        char[] chars = code.toCharArray ();
         int charValue = 0;
         String result = "";
-        for(int i = 0; i < chars.length; i++){
-            charValue = (int) code.charAt(i);
+        for (int i = 0; i < chars.length; i++) {
+            charValue = (int) code.charAt (i);
             if (charValue <= 256) {
                 // result += "& "+Integer.toHexString(charValue)+";";
-                result += "\\"+ Integer.toHexString(charValue);
-            }else{
+                result += "\\" + Integer.toHexString (charValue);
+            } else {
                 // result += "&#x"+Integer.toHexString(charValue)+";";
-                result += "\\u"+ Integer.toHexString(charValue);
+                result += "\\u" + Integer.toHexString (charValue);
             }
         }
         return result;
@@ -23,17 +23,17 @@ public class UnicodeUtils {
 
     public static String ascii2native(String code) {
         char aChar;
-        int len = code.length();
-        StringBuffer outBuffer = new StringBuffer(len);
-        for (int x = 0; x < len;) {
-            aChar = code.charAt(x++);
+        int len = code.length ();
+        StringBuffer outBuffer = new StringBuffer (len);
+        for (int x = 0; x < len; ) {
+            aChar = code.charAt (x++);
             if (aChar == '\\') {
-                aChar = code.charAt(x++);
+                aChar = code.charAt (x++);
                 if (aChar == 'u') {
                     // Read the xxxx
                     int value = 0;
                     for (int i = 0; i < 4; i++) {
-                        aChar = code.charAt(x++);
+                        aChar = code.charAt (x++);
                         switch (aChar) {
                             case '0':
                             case '1':
@@ -64,32 +64,29 @@ public class UnicodeUtils {
                                 value = (value << 4) + 10 + aChar - 'A';
                                 break;
                             default:
-                                throw new IllegalArgumentException(
+                                throw new IllegalArgumentException (
                                         "Malformed   \\uxxxx   encoding.");
                         }
                     }
-                    outBuffer.append((char) value);
+                    outBuffer.append ((char) value);
                 } else {
                     if (aChar == 't') {
                         aChar = '\t';
-                    }
-                    else if (aChar == 'r') {
+                    } else if (aChar == 'r') {
                         aChar = '\r';
-                    }
-                    else if (aChar == 'n') {
+                    } else if (aChar == 'n') {
                         aChar = '\n';
-                    }
-                    else if (aChar == 'f') {
+                    } else if (aChar == 'f') {
                         aChar = '\f';
                     }
-                    outBuffer.append(aChar);
+                    outBuffer.append (aChar);
                 }
             } else {
-                outBuffer.append(aChar);
+                outBuffer.append (aChar);
             }
 
         }
-        return outBuffer.toString();
+        return outBuffer.toString ();
     }
 
 //    public static void main(String[] args) {
