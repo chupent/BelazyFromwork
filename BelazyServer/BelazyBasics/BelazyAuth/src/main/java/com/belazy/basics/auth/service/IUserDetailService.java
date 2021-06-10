@@ -31,4 +31,11 @@ public class IUserDetailService implements UserDetailsService {
         log.info ("UserDetail:{}", detail);
         return detail;
     }
+
+    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+        UserDetail detail = iUserMapper.findUserByEmail (email);
+        log.info ("UserDetail:{}", detail);
+        return detail;
+    }
+
 }

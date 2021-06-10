@@ -112,11 +112,10 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                 UserDetail detail = (UserDetail) o;
                 UserInfoVo infoVo =new UserInfoVo ();
                 infoVo.setAccount (detail.getAccount ());
-                infoVo.setNickname (detail.getNickname ());
-                infoVo.setPhone (detail.getPhone ());
                 infoVo.setRoles (detail.getRoles ());
-                infoVo.setName (detail.getName ());
                 infoVo.setId (detail.getId ());
+                infoVo.setEmail (detail.getEmail ());
+                infoVo.setPhoneNumber (detail.getPhoneNumber ());
                 additionMessage.put(SecurityConstants.USER_INFO, infoVo);
             }
             ((DefaultOAuth2AccessToken)oAuth2AccessToken).setAdditionalInformation(additionMessage);
