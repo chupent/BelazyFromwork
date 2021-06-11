@@ -1,5 +1,6 @@
 package com.belazy.business.common.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.belazy.business.common.entity.SysUserEntity;
 import com.belazy.business.common.service.ISysUserService;
 import com.belazy.business.api.dto.SysUserDTO;
@@ -36,6 +37,7 @@ public class SysUserController extends BasicController {
     public Result<PageVO<SysUserEntity>>list(SysUserDTO dto){
         Page<SysUserEntity> page = new Page<> (dto.getOffset (),dto.getSize ());
         SysUserEntity entity = new SysUserEntity ();
+        BeanUtil.copyProperties(dto,entity);
         QueryWrapper<SysUserEntity> query = Wrappers.query (entity);
         return Result.success (toPage (iSysUserService.page (page, query)));
     }
@@ -43,6 +45,7 @@ public class SysUserController extends BasicController {
     @ApiOperation(value = "查询用户登录账号列表(不分页)", notes = "查询用户登录账号列表(不分页)")
     public Result<List<SysUserEntity>> listall(SysUserDTO dto) {
         SysUserEntity entity = new SysUserEntity ();
+        BeanUtil.copyProperties(dto,entity);
         QueryWrapper<SysUserEntity> query = Wrappers.query(entity);
         return Result.success(iSysUserService.list(query));
     }
@@ -52,18 +55,24 @@ public class SysUserController extends BasicController {
     public Result<SysUserEntity> getInfo(@PathVariable("id") String id) {
         return Result.success(iSysUserService.getById(id));
     }
-    @PostMapping
+    @PostMapping("/add")
     @ApiOperation(value = "新增用户登录账号", notes = "新增用户登录账号")
     public Result add(@RequestBody SysUserEntity sysUser) {
         boolean result = iSysUserService.save(sysUser);
 		return result?Result.success() : Result.fail();
     } 
-    @PutMapping
+    @PutMapping("/edit")
     @ApiOperation(value = "修改用户登录账号", notes = "修改用户登录账号")
     public Result edit(@RequestBody SysUserEntity sysUser) {
         boolean result = iSysUserService.updateById(sysUser);
 		return result?Result.success() : Result.fail();
-    }    
+    }
+    @PostMapping("/save")
+    @ApiOperation(value = "保存用户登录账号(新增/修改)", notes = "保存用户登录账号(新增/修改)")
+    public Result saveOrUpdate(@RequestBody SysUserEntity sysUser) {
+        boolean result = iSysUserService.saveOrUpdate (sysUser);
+        return result?Result.success() : Result.fail();
+    }
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除用户登录账号", notes = "删除用户登录账号")
     public Result remove(@PathVariable String id) {
