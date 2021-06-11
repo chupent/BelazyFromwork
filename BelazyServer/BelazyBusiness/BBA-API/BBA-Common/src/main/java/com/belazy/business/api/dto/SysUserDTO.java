@@ -1,8 +1,6 @@
 package com.belazy.business.api.dto;
 
 import java.util.Date;
-import java.lang.String;
-import java.lang.Integer;
 
 import com.belazy.library.model.dto.PageDTO;
 import io.swagger.annotations.ApiModel;

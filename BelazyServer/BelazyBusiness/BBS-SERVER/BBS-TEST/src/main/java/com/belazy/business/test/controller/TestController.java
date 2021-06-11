@@ -18,17 +18,4 @@ public class TestController {
         log.info ("============================");
         return "Hello Nacos Discovery username:" + user.getUsername ()+",age:"+user.getAge ();
     }
-//    @ApiOperation (value = "测试接口2")
-//    @GetMapping(value = "/echo/2")
-//    public String echo2(@RequestParam String user) {
-////        TokenUtils.getUserId ();
-//        Result<UserVo> result =  iSysBelazyUserFeign.getUserVoById (user);
-//        if(result.getIsSuccess ()){
-//            UserVo userVo = result.getBody ();
-//            if(null!=userVo){
-//                return userVo.toString ();
-//            }
-//        }
-//        return "Hello Nacos Discovery username:" + user;
-//    }
 }

@@ -2,8 +2,6 @@ package com.belazy.business.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
-import java.lang.String;
-import java.lang.Integer;
 
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
