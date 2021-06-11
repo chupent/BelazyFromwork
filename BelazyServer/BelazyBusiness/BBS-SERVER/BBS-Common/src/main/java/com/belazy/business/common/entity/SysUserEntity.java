@@ -32,7 +32,7 @@ public class SysUserEntity implements Serializable{
 	private String account;
     @ApiModelProperty(value = "创建人")
 	private Long createBy;
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "创建人姓名")
 	private String createName;
     @ApiModelProperty(value = "创建时间/注册时间")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")	
@@ -63,8 +63,7 @@ public class SysUserEntity implements Serializable{
     @ApiModelProperty(value = "更新人ID")
 	private Long updateBy;
     @ApiModelProperty(value = "更新人姓名")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")	
-	private Date updateName;
+	private String updateName;
     @ApiModelProperty(value = "更新时间")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")	
 	private Date updateTime;
