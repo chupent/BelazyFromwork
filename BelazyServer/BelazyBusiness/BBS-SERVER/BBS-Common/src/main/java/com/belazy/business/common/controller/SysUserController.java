@@ -10,6 +10,7 @@ import com.belazy.library.core.basics.BasicController;
 import com.belazy.library.model.Result;
 import com.belazy.library.model.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -34,19 +35,19 @@ public class SysUserController extends BasicController {
 
     @GetMapping("/page")
     @ApiOperation(value = "查询用户登录账号列表(分页)", notes = "查询用户登录账号列表(分页)")
-    public Result<PageVO<SysUserEntity>>list(SysUserDTO dto){
+    public Result<PageVO<SysUserEntity>>page(SysUserDTO dto){
         Page<SysUserEntity> page = new Page<> (dto.getOffset (),dto.getSize ());
         SysUserEntity entity = new SysUserEntity ();
         BeanUtil.copyProperties(dto,entity);
-        QueryWrapper<SysUserEntity> query = Wrappers.query (entity);
+        QueryWrapper<SysUserEntity> query =orderBy (Wrappers.query (entity),dto);
         return Result.success (toPage (iSysUserService.page (page, query)));
     }
     @GetMapping("/list")
     @ApiOperation(value = "查询用户登录账号列表(不分页)", notes = "查询用户登录账号列表(不分页)")
-    public Result<List<SysUserEntity>> listall(SysUserDTO dto) {
+    public Result<List<SysUserEntity>> list(SysUserDTO dto) {
         SysUserEntity entity = new SysUserEntity ();
         BeanUtil.copyProperties(dto,entity);
-        QueryWrapper<SysUserEntity> query = Wrappers.query(entity);
+        QueryWrapper<SysUserEntity> query = orderBy (Wrappers.query (entity),dto);
         return Result.success(iSysUserService.list(query));
     }
 

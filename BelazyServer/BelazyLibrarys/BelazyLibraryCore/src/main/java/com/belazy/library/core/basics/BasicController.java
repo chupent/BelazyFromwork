@@ -1,7 +1,11 @@
 package com.belazy.library.core.basics;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.belazy.library.model.dto.ListDTO;
 import com.belazy.library.model.vo.PageVO;
+import org.springframework.util.StringUtils;
+
 /**
  * @author tangcp
  */
@@ -19,5 +23,25 @@ public abstract class BasicController {
         vo.setOffset (page.getCurrent ());
         vo.setTotal (page.getTotal ());
         return vo;
+    }
+    /**
+     * 排序
+     * @param query
+     * @param dto
+     */
+    public <T>QueryWrapper<T> orderBy(QueryWrapper<T> query, ListDTO dto){
+        String field = dto.getField ();
+        String sort = dto.getSort ();
+        if(!StringUtils.isEmpty (field) && !StringUtils.isEmpty (sort)){
+            if(sort.equalsIgnoreCase ("ASC")){
+                String[] str = field.split (",");
+                query.orderByAsc (str);
+            }
+            if(sort.equalsIgnoreCase ("ASC")){
+                String[] str = field.split (",");
+                query.orderByDesc (str);
+            }
+        }
+        return query;
     }
 }
