@@ -19,7 +19,7 @@ public class UserInfoVo implements Serializable {
     @ApiModelProperty(value = "用户账号",required = true)
     private String account;
     @ApiModelProperty(value = "用户姓名",required = true)
-    private String phoneNumber;
+    private String mobile;
     @ApiModelProperty(value = "用户手机号",required = true)
     private String email;
     @ApiModelProperty(value = "用户角色",required = true)

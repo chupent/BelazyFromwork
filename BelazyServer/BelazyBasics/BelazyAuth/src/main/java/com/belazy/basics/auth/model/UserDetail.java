@@ -16,7 +16,7 @@ public class UserDetail implements UserDetails {
     private static final long serialVersionUID = 1L;
     private String id;
     private String account;
-    private String phoneNumber;
+    private String mobile;
     private String email;
     private String password;
     private Integer isAccountEnabled;
