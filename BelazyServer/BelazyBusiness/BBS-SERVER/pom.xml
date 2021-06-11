@@ -48,15 +48,10 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <artifactId>BelazyLibraryData</artifactId>
-            <groupId>com.belazy.library</groupId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
+        <!--核心类库-->
         <dependency>
             <groupId>com.belazy.library</groupId>
-            <artifactId>BelazyLibraryUtil</artifactId>
+            <artifactId>BelazyLibraryCore</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

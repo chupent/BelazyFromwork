@@ -43,24 +43,6 @@
         </dependency>
         <dependency>
             <groupId>com.belazy.library</groupId>
-            <artifactId>BelazyLibraryCore</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.belazy.library</groupId>
-            <artifactId>BelazyLibraryModel</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.belazy.library</groupId>
-            <artifactId>BelazyLibraryUtil</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.belazy.library</groupId>
             <artifactId>BelazyLibraryRedis</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>

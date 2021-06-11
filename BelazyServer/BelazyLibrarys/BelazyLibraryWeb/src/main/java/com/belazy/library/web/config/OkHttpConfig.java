@@ -1,6 +1,4 @@
 package com.belazy.library.web.config;
-
-import com.belazy.library.web.util.OkHttpUtil;
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -12,5 +12,5 @@ import java.io.Serializable;
 @Data
 public class BasicDTO implements Serializable {
     @ApiModelProperty("查询过滤内容")
-    private String filterContent;
+    private String filter;
 }

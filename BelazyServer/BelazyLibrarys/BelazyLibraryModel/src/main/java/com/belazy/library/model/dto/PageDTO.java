@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class PageDTO extends ListDTO {
     @ApiModelProperty("页容量")
-    private int pageSize;
+    private Long size;
     @ApiModelProperty("页码偏移量")
-    private int pageOffset;
+    private Long offset;
 }
