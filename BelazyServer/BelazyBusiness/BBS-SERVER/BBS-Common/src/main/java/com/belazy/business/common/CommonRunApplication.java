@@ -1,6 +1,7 @@
 package com.belazy.business.common;
 
 import com.belazy.library.util.log.ConsoleUtil;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableFeignClients(basePackages = {"com.belazy.business.api.feign"})
 @ComponentScan(basePackages = {"com.belazy"})
+@MapperScan("com.belazy.business.common.mapper")
 public class CommonRunApplication {
     public static void main(String[] args)  {
         ApplicationContext applicationContext = SpringApplication.run (CommonRunApplication.class, args);
