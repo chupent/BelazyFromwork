@@ -12,7 +12,7 @@ public interface IUserMapper {
     @Select(SQL + "u.account=#{account}")
     UserDetail findUserByAccount(String account);
 
-    @Select(SQL + "u.phone_number=#{phone}")
+    @Select(SQL + "u.mobile=#{phone}")
     UserDetail findUserByMobile(String phone);
 
     @Select(SQL + "u.email=#{email}")

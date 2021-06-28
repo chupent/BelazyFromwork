@@ -50,7 +50,7 @@ public class AuthController {
     private String authUri;
 
 
-    @PostMapping("/sendLoginSmsCode")
+    @GetMapping("/sendLoginSmsCode")
     @ApiOperation (value = "发送登录短信验证码")
     public Result<Boolean> sendSmsCode(@ApiParam("手机号码") @RequestParam("moible") String moible) {
         Object obj = redisService.get (RedisConstant.LOGIN_SMS_CODE_KEY + moible);
