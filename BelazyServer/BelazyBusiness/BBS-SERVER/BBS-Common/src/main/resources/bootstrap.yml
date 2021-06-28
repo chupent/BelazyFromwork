@@ -6,7 +6,7 @@ spring:
       discovery: #nacos注册地址
         server-addr: ${REGISTER_HOST:localhost}:${REGISTER_PORT:8848}
         metadata: #标记元
-          version: tangcp
+          version:
       config: #nacos配置地址
         server-addr: ${REGISTER_HOST:localhost}:${REGISTER_PORT:8848}
         file-extension: yml
