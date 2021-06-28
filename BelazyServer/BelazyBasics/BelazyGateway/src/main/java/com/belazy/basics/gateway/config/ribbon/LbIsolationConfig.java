@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * 负责均衡配置
  */
 @Configuration
-@ConditionalOnProperty(value = "finance.ribbon.isolation.enabled", havingValue = "true")
+@ConditionalOnProperty(value = "belazy.ribbon.isolation.enabled", havingValue = "true")
 @RibbonClients(defaultConfiguration = {RuleConfigure.class})
 public class LbIsolationConfig {
 

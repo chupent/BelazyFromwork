@@ -15,24 +15,22 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Component
-public class LbIsolationFilter implements WebFilter,Ordered {
+public class LbIsolationFilter implements WebFilter, Ordered {
 
-    @Value("${finance.ribbon.isolation.enabled:false}")
+    @Value("${belazy.ribbon.isolation.enabled:false}")
     private boolean enableIsolation;
 
     private static final String FINANCE_VERSION = "Belazy-Version";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-            if (enableIsolation) {
-                String version = exchange.getRequest().getHeaders().getFirst(FINANCE_VERSION);
-
-                if (StringUtils.isNotEmpty(version)) {
-                    LbIsolationContextHolder.setVersion(version);
-                }
+        if (enableIsolation) {
+            String version = exchange.getRequest ().getHeaders ().getFirst (FINANCE_VERSION);
+            if (StringUtils.isNotEmpty (version)) {
+                LbIsolationContextHolder.setVersion (version);
             }
-
-            return chain.filter(exchange).doFinally(signalType ->   LbIsolationContextHolder.clear());
+        }
+        return chain.filter (exchange).doFinally (signalType -> LbIsolationContextHolder.clear ());
     }
 
 
