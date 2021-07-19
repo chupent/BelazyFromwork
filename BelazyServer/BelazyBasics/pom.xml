@@ -19,6 +19,17 @@
         <module>BelazyGateway</module>
     </modules>
     <dependencies>
+        <!--zipkin 链路追踪-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+        <!--sentinel 服务治理监控-->
+        <!--<dependency>-->
+        <!--<groupId>com.alibaba.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>-->
+        <!--<version>${alibaba.cloud.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
