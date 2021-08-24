@@ -13,7 +13,7 @@ import lombok.*;
  * 系统-省份城市区域表
  * @author tchupeng
  * @email 923574674@qq.com
- * @date 2021年06月12日 10:18:58
+ * @date 2021年07月25日 00:18:47
  */
 @Data
 @AllArgsConstructor
