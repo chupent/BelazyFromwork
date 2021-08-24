@@ -53,7 +53,7 @@ public class AuthController {
     @GetMapping("/sendLoginSmsCode")
     @ApiOperation (value = "发送登录短信验证码")
     public Result<Boolean> sendSmsCode(@ApiParam("手机号码") @RequestParam("moible") String moible) {
-        Object obj = redisService.get (RedisConstant.LOGIN_SMS_CODE_KEY + moible);
+        Object obj = redisService.getToString (RedisConstant.LOGIN_SMS_CODE_KEY + moible);
         if (!StringUtils.isEmpty (obj)) {
             return Result.fail ("已发送短信验证码，请稍后再试!");
         }
