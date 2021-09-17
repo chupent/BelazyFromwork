@@ -6,7 +6,7 @@
     "predicates": [
       {
         "args": {
-          "pattern": "/auth/**"
+          "pattern": "/belazy-auth/**"
         },
         "name": "Path"
       }
@@ -20,7 +20,7 @@
     "predicates": [
       {
         "args": {
-          "pattern": "/common/**"
+          "pattern": "/bbs-common/**"
         },
         "name": "Path"
       }
@@ -34,7 +34,7 @@
     "predicates": [
       {
         "args": {
-          "pattern": "/test/**"
+          "pattern": "/bbs-test/**"
         },
         "name": "Path"
       }
