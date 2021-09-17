@@ -17,11 +17,15 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:8080
-
+        url: http://127.0.0.1:8080
+  zipkin:  #zipkin链路地址
+    base-url: http://localhost:9411/
   redis:
-    host: 127.0.0.1
+    database: 0
+    host: 47.103.65.169
+    password: tangcp
     port: 6379
+    timeout: 5000
     lettuce:
       pool:
         max-active: 8  # 连接池最大连接数（使用负值表示没有限制），默认 8
@@ -31,9 +35,9 @@ spring:
 
   datasource:
     platform: mysql
-    url: jdbc:mysql://localhost:3306/belazy_base?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL
+    url: jdbc:mysql://47.103.65.169:3306/belazy_base?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL
     username: root
-    password: tangcp
+    password: 123456
     dribver-class-name: com.mysql.jdbc.Driver
     max-active: 1000
 #开启mybatis日志
@@ -48,7 +52,7 @@ mybatis:
 
 #oauth2配置
 oauth:
-  authUri: http://localhost:8010/oauth/token
+  authUri: http://127.0.0.1:8010/oauth/token
   grantType: password
   clientId: BelazySecretID
   clientSecret: BelazySecret

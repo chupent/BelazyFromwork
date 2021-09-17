@@ -17,7 +17,22 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:8080
+        url: http://127.0.0.1:8080
+  zipkin:  #zipkin链路地址
+    base-url: http://localhost:9411/
+
+  redis:
+      database: 0
+      host: 47.103.65.169
+      password: tangcp
+      port: 6379
+      timeout: 5000
+      lettuce:
+        pool:
+          max-active: 8  # 连接池最大连接数（使用负值表示没有限制），默认 8
+          max-wait: -1ms # 连接池最大阻塞等待时间（使用负值表示没有限制），默认 -1ms
+          max-idle: 8 # 连接池中的最大空闲连接，默认 8
+          min-idle: 0 # 连接池中的最小空闲连接，默认 0
 
   cloud:
     #网关配置
@@ -31,7 +46,9 @@ spring:
       - name: Hystrix
         args:
           name: default
-          fallbackUri: forward:/defaultFallback
+          fallbackUri: 'forward:/defaultFallback'
+
+
 #      routes:
 #          #自定义的路由 ID，保持唯一
 #        - id: gateway-bbs-capp
@@ -54,7 +71,7 @@ hystrix:
         isolation:
           strategy: SEMAPHORE
           thread:
-            timeoutInMilliseconds: 2000
+            timeoutInMilliseconds: 20000
   shareSecurityContext: true
 
 #动态路由配置信息
@@ -62,3 +79,10 @@ bgateway:
   dataId: belazy-gateway-router
   group: BELAZY-GROUP
   openResources:
+#自定义负载均衡策略开启
+belazy:
+  ribbon:
+    isolation:
+      enabled: true
+
+
