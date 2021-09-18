@@ -1,4 +1,4 @@
-package com.belazy.library.constant;
+package com.belazy.basics.auth.constant;
 
 /**
  * @author tangcp

@@ -1,6 +1,6 @@
 package com.belazy.basics.gateway.properties;
 
-import com.belazy.library.constant.AppConstant;
+import com.belazy.basics.gateway.constant.NacosConstant;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.EnvironmentAware;
@@ -33,7 +33,7 @@ public class EnvironmentProperties implements EnvironmentAware, EnvironmentCapab
 		// 判断环境:dev、test、prod
 		List<String> activeProfileList = Arrays.asList(activeProfiles);
 		if (activeProfileList.isEmpty()) {
-			return AppConstant.DEV_CODE;// 默认dev开发
+			return NacosConstant.DEV_CODE;// 默认dev开发
 		} else {
 			return activeProfileList.get(0);
 		}

@@ -1,11 +1,9 @@
-package com.belazy.library.constant;
+package com.belazy.basics.gateway.constant;
 
 /**
  * @author tangcp
  */
 public interface NacosConstant {
-
-
     /**
      * nacos dev 地址
      */
@@ -20,18 +18,14 @@ public interface NacosConstant {
      * nacos test 地址
      */
     String NACOS_TEST_ADDR = "172.30.0.48:8848";
-
-
     /**
      * nacos 配置前缀
      */
     String NACOS_CONFIG_PREFIX = "finance";
-
     /**
      * nacos 配置文件类型
      */
     String NACOS_CONFIG_FORMAT = "yaml";
-
     /**
      * nacos json配置文件类型
      */
@@ -46,7 +40,12 @@ public interface NacosConstant {
      * nacos 分组
      */
     String NACOS_CONFIG_GROUP = "DEFAULT_GROUP";
-
+    /**开发环境*/
+    String DEV_CODE = "dev";
+    /**生产环境*/
+    String PROD_CODE = "prod";
+    /**测试环境*/
+    String TEST_CODE = "test";
     /**
      * 构建服务对应的 dataId
      *
@@ -55,7 +54,7 @@ public interface NacosConstant {
      * @return dataId
      */
     static String dataId(String appName, String profile) {
-        return dataId(appName, profile, NACOS_CONFIG_FORMAT);
+        return dataId (appName, profile, NACOS_CONFIG_FORMAT);
     }
 
     /**
@@ -63,7 +62,7 @@ public interface NacosConstant {
      *
      * @param appName 服务名
      * @param profile 环境变量
-     * @param format 文件类型
+     * @param format  文件类型
      * @return dataId
      */
     static String dataId(String appName, String profile, String format) {
@@ -78,9 +77,9 @@ public interface NacosConstant {
      */
     static String nacosAddr(String profile) {
         switch (profile) {
-            case (AppConstant.PROD_CODE):
+            case (PROD_CODE):
                 return NACOS_PROD_ADDR;
-            case (AppConstant.TEST_CODE):
+            case (TEST_CODE):
                 return NACOS_TEST_ADDR;
             default:
                 return NACOS_DEV_ADDR;

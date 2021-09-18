@@ -33,12 +33,6 @@
             <groupId>com.belazy.library</groupId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-undertow</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!--swagger文档增强-->
         <dependency>

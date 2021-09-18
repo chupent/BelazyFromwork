@@ -25,12 +25,6 @@
             <artifactId>spring-security-jwt</artifactId>
         </dependency>
         <dependency>
-            <artifactId>BelazyLibraryWeb</artifactId>
-            <groupId>com.belazy.library</groupId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.belazy.library</groupId>
             <artifactId>BelazyLibraryCore</artifactId>
             <version>1.0-SNAPSHOT</version>

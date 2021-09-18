@@ -61,12 +61,6 @@
             <version>${knife4j.version}</version>
         </dependency>
         <dependency>
-            <artifactId>BelazyLibraryConstant</artifactId>
-            <groupId>com.belazy.library</groupId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.belazy.library</groupId>
             <artifactId>BelazyLibraryUtil</artifactId>
             <version>1.0-SNAPSHOT</version>

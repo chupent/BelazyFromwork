@@ -1,10 +1,10 @@
 package com.belazy.basics.auth.controller;
 
+import com.belazy.basics.auth.constant.RedisConstant;
+import com.belazy.basics.auth.constant.SecurityConstants;
 import com.belazy.basics.auth.model.in.LoginIN;
 import com.belazy.basics.auth.model.vo.LoginInfoVo;
-import com.belazy.library.constant.SecurityConstants;
 import com.belazy.library.model.Result;
-import com.belazy.library.constant.RedisConstant;
 import com.belazy.library.model.enums.GrantTypeEnum;
 import com.belazy.library.redis.service.RedisService;
 import com.belazy.library.web.util.OkHttpUtil;

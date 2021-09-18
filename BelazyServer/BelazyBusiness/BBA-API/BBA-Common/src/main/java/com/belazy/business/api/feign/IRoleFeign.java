@@ -2,8 +2,9 @@ package com.belazy.business.api.feign;
 
 import com.belazy.business.api.feign.fallback.RoleFeignFallBack;
 
-import org.springframework.cloud.openfeign.FeignClient;
 import com.belazy.library.constant.AppConstant;
+import org.springframework.cloud.openfeign.FeignClient;
+
 
 
 /**

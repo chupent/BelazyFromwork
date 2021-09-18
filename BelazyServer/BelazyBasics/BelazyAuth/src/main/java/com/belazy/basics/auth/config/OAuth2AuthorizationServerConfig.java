@@ -1,11 +1,11 @@
 package com.belazy.basics.auth.config;
 
+import com.belazy.basics.auth.constant.SecurityConstants;
 import com.belazy.basics.auth.exception.IOAuth2WebResponseExceptionTranslator;
 import com.belazy.basics.auth.mobile.MobileSMSCodeTokenGranter;
 import com.belazy.basics.auth.model.UserDetail;
 import com.belazy.basics.auth.model.vo.UserInfoVo;
 import com.belazy.basics.auth.service.IUserDetailService;
-import com.belazy.library.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

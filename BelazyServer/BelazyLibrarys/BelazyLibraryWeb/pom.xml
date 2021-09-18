@@ -51,12 +51,6 @@
             <version>${jjwt.version}</version>
         </dependency>
         <dependency>
-            <artifactId>BelazyLibraryConstant</artifactId>
-            <groupId>com.belazy.library</groupId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>4.9.1</version>

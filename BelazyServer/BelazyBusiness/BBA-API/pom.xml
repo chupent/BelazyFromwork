@@ -18,12 +18,6 @@
     <dependencies>
         <dependency>
             <groupId>com.belazy.library</groupId>
-            <artifactId>BelazyLibraryConstant</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.belazy.library</groupId>
             <artifactId>BelazyLibraryModel</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>

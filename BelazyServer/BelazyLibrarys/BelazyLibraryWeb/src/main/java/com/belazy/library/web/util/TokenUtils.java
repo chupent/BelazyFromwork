@@ -1,6 +1,6 @@
 package com.belazy.library.web.util;
 
-import com.belazy.library.constant.SecurityConstants;
+import com.belazy.library.web.constant.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
