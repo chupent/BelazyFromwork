@@ -1,5 +1,6 @@
 package com.belazy.basics.auth.exception;
 
+import com.belazy.basics.auth.enums.ErrorMessageEnum;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
@@ -22,6 +23,14 @@ public class IOAuth2Exception extends OAuth2Exception {
 
     public IOAuth2Exception(String msg) {
         super (msg);
+    }
+    public IOAuth2Exception(ErrorMessageEnum messageEnum,Throwable t){
+        super (messageEnum.MESSAGE,t);
+        this.httpErrorCode = messageEnum.CODE;
+    }
+    public IOAuth2Exception(ErrorMessageEnum messageEnum){
+        super (messageEnum.MESSAGE);
+        this.httpErrorCode = messageEnum.CODE;
     }
 
     @Override

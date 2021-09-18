@@ -1,5 +1,6 @@
 package com.belazy.basics.auth.exception;
 
+import com.belazy.basics.auth.enums.ErrorMessageEnum;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,23 +35,23 @@ public class IOAuth2WebResponseExceptionTranslator implements WebResponseExcepti
             if (null != throwable) {
                 if (throwable instanceof OAuth2Exception) {//异常链中有OAuth2Exception异常
                     if(throwable instanceof InvalidGrantException){
-                        return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.BAD_REQUEST.value (), "授权失败，账号或密码错误！", throwable));
+                        return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.INVALID_GRANT, throwable));
                     }else {
-                        return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.BAD_REQUEST.value (), "授权失败", throwable));
+                        return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.AUTH_EXCEPTION, throwable));
                     }
                 }
                 if (throwable instanceof AuthenticationException) {//身份验证相关异常
-                    return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.BAD_REQUEST.value (), "授权失败，账号或密码错误！", throwable));
+                    return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.INVALID_GRANT, throwable));
                 }
                 if (throwable instanceof AccessDeniedException) {//异常链中包含拒绝访问异常
-                    return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.FORBIDDEN.value (), "拒绝访问", throwable));
+                    return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.ACCESS_DENIED, throwable));
                 }
                 if (throwable instanceof HttpRequestMethodNotSupportedException) {//异常链中包含Http方法请求异常
-                    return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.BAD_REQUEST.value (), "HTTP请求方法异常", throwable));
+                    return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.HTTP_REQUEST_METHOD_NOT_SUPPORTED, throwable));
                 }
             }
         }
-        return this.handleOAuth2Exception (new IOAuth2Exception (HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase (), e));
+        return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.INTERNAL_SERVER_ERROR, e));
     }
 
     private ResponseEntity<OAuth2Exception> handleOAuth2Exception(OAuth2Exception e) {

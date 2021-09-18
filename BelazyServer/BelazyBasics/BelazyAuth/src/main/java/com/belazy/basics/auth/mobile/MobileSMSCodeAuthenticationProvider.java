@@ -1,5 +1,6 @@
 package com.belazy.basics.auth.mobile;
 
+import com.belazy.basics.auth.enums.ErrorMessageEnum;
 import com.belazy.basics.auth.exception.IOAuth2Exception;
 import com.belazy.basics.auth.service.IUserDetailService;
 import com.belazy.library.constant.RedisConstant;
@@ -25,7 +26,7 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
     private IUserDetailService iUserDetailService;
     @Setter
     private RedisService redisService;
-    private final String ERROR_CODE = "400";
+
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         MobileSMSCodeAuthenticationToken token = (MobileSMSCodeAuthenticationToken) authentication;
         MobileSMSCode param = token.getParam ();
@@ -33,10 +34,12 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
         String smsCode =param.getSmsCode ();
         Object obj = redisService.get (RedisConstant.LOGIN_SMS_CODE_KEY + param.getUsername ());
         if (obj == null || "".equals (obj)) {
-            throw new IOAuth2Exception (this.messages.getMessage (ERROR_CODE, "验证码失效，请重新发送！"));
+            log.error ("additionalAuthenticationChecks ==> 验证码失效，请重新发送！");
+            throw new IOAuth2Exception (ErrorMessageEnum.SMS_CODE_EXPIRE);
         }
         if (!smsCode.equals (String.valueOf (obj))) {
-            throw new IOAuth2Exception (this.messages.getMessage (ERROR_CODE, "验证码不正确！"));
+            log.error ("additionalAuthenticationChecks ==> 验证码不正确！");
+            throw new IOAuth2Exception (ErrorMessageEnum.SMS_CODE_ERROR);
         }
         redisService.del (RedisConstant.LOGIN_SMS_CODE_KEY + param.getUsername ());//校验完毕清楚验证码记录
     }
@@ -47,20 +50,23 @@ public class MobileSMSCodeAuthenticationProvider extends AbstractUserDetailsAuth
             MobileSMSCodeAuthenticationToken token = (MobileSMSCodeAuthenticationToken) usernamePasswordAuthenticationToken;
             MobileSMSCode param = token.getParam ();
             if (param == null) {
-                log.error ("MobileSMSCodeParam is null!");
-                throw new IOAuth2Exception (this.messages.getMessage (ERROR_CODE, "Bad MobileSMSCodeParam"));
+                log.error ("retrieveUser ==> MobileSMSCodeParam is null!");
+                throw new IOAuth2Exception (ErrorMessageEnum.PARAMS_ERROR);
             }
             if (StringUtils.isEmpty (param.getSmsCode ())) {
-                log.error ("sms code is null!");
-                throw new IOAuth2Exception (this.messages.getMessage (ERROR_CODE, "验证码不能为空！"));
+                log.error ("retrieveUser ==> sms code is null!");
+                throw new IOAuth2Exception (ErrorMessageEnum.SMS_CODE_ERROR);
             }
             loadedUser = iUserDetailService.loadUserByMobile (param.getUsername ());
         } catch (UsernameNotFoundException var6) {
+            log.error ("retrieveUser ==> UsernameNotFoundException");
             throw var6;
         } catch (Exception var7) {
+            log.error ("retrieveUser ==> InternalAuthenticationServiceException");
             throw new InternalAuthenticationServiceException (var7.getMessage (), var7);
         }
         if (loadedUser == null) {
+            log.error ("retrieveUser ==> loadedUser is null");
             throw new InternalAuthenticationServiceException ("UserDetailsService returned null, which is an interface contract violation");
         } else {
             return loadedUser;

@@ -26,7 +26,7 @@ public class AdminRunApplication {
         String ipAddress = InetAddress.getLocalHost().getHostAddress();//IP地址
         log.info("\n----------------------------------------------------------\n\t" +
                         "Application '{}' is running! Access URLs:\n\t" +
-                        "External: \thttp://{}:{}\n\t" +
+                        "External: \thttp://{}:{}\n" +
                         "----------------------------------------------------------",
                 appName, ipAddress, port);
 

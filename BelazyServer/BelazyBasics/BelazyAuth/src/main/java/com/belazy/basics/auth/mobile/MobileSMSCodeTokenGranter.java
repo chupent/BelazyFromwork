@@ -66,10 +66,10 @@ public class MobileSMSCodeTokenGranter extends AbstractTokenGranter {
                 }
             }
         } catch (IllegalAccessException e) {
-            log.error ("反射错误!");
+            log.error ("getOAuth2Authentication ==> 反射错误!");
         }
         parameters.remove ("password"); //短信验证码的登录不需要密码，删除
-        log.info ("AppParam sysout:{}", appParam);
+        log.info ("getOAuth2Authentication ==> AppParam={}", appParam);
 
         Authentication userAuth = new MobileSMSCodeAuthenticationToken (appParam);
         ((AbstractAuthenticationToken) userAuth).setDetails (parameters);
