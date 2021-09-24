@@ -1,0 +1,19 @@
+{
+  "name": "belazy-web",
+  "version": "0.1.0",
+  "scripts": {
+    "serve:dev": "vite --mode dev",
+    "serve:test": "vite --mode test",
+    "serve:prod": "vite --mode prod",
+    "build:dev": "vite build --mode dev",
+    "build:test": "vite build --mode test",
+    "build:prod": "vite build --mode prod"
+  },
+  "dependencies": {
+    "vue": "^3.0.4"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.0.4",
+    "vite": "^1.0.0-rc.13"
+  }
+}
