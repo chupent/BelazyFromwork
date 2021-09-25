@@ -78,8 +78,12 @@ public class AuthController {
         }
         String mGrantType = request.getHeader (SecurityConstants.GRANT_TYPE);
         if (StringUtils.isEmpty (mGrantType)) {
-            mGrantType = GrantTypeEnum.PASSWORD.val;
+            mGrantType  = in.getGrantType ();
+            if (StringUtils.isEmpty (mGrantType)){
+                mGrantType = GrantTypeEnum.PASSWORD.val;
+            }
         }
+
         Map<String, String> param = new HashMap<> ();
         param.put (SecurityConstants.GRANT_TYPE, mGrantType);
         param.put (SecurityConstants.CLIENT_ID, clientId);

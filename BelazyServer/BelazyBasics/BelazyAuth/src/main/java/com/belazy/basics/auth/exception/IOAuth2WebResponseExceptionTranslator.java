@@ -36,7 +36,9 @@ public class IOAuth2WebResponseExceptionTranslator implements WebResponseExcepti
                 if (throwable instanceof OAuth2Exception) {//异常链中有OAuth2Exception异常
                     if(throwable instanceof InvalidGrantException){
                         return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.INVALID_GRANT, throwable));
-                    }else {
+                    } else if(throwable instanceof IOAuth2Exception){
+                        return this.handleOAuth2Exception ((IOAuth2Exception) throwable);
+                    } else {
                         return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.AUTH_EXCEPTION, throwable));
                     }
                 }
