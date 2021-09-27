@@ -34,20 +34,19 @@
               <el-button type="primary" style="width: 100%;" :loading="islogin" round @click="login">登 录</el-button>
             </el-form-item>
           </el-form>
-          <el-divider>友情链接</el-divider>
-
-          <div class="login-oauth">
-            <el-button size="small" type="primary" icon="el-icon-platform-eleme" circle></el-button>
-            <el-button size="small" type="success" icon="el-icon-s-goods" circle></el-button>
-            <el-button size="small" type="info" icon="el-icon-s-promotion" circle></el-button>
-            <el-button size="small" type="warning" icon="el-icon-menu" circle></el-button>
-          </div>
+<!--          <el-divider>友情链接</el-divider>-->
+<!--          <div class="login-oauth">-->
+<!--            <el-button size="small" type="primary" icon="el-icon-platform-eleme" circle></el-button>-->
+<!--            <el-button size="small" type="success" icon="el-icon-s-goods" circle></el-button>-->
+<!--            <el-button size="small" type="info" icon="el-icon-s-promotion" circle></el-button>-->
+<!--            <el-button size="small" type="warning" icon="el-icon-menu" circle></el-button>-->
+<!--          </div>-->
         </div>
         <div class="login-sidebox">
           <div class="login-sidebox__title">
             <h2>Belazy</h2>
           </div>
-<!--          <img src="img/loginbg.svg"/>-->
+          <img src="img/loginbg.svg"/>
         </div>
       </div>
       <div class="login-footer">© aaaa bbbbb</div>
