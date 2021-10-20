@@ -32,14 +32,17 @@ public abstract class BasicController {
     public <T>QueryWrapper<T> orderBy(QueryWrapper<T> query, ListDTO dto){
         String field = dto.getField ();
         String sort = dto.getSort ();
-        if(!StringUtils.isEmpty (field) && !StringUtils.isEmpty (sort)){
-            if(sort.equalsIgnoreCase ("ASC")){
+        if(!StringUtils.isEmpty (field)){
+            if(sort.equalsIgnoreCase ("DECS")){
                 String[] str = field.split (",");
-                query.orderByAsc (str);
-            }
-            if(sort.equalsIgnoreCase ("ASC")){
+                for(String f:str){
+                    query.orderByDesc (f);
+                }
+            }else {
                 String[] str = field.split (",");
-                query.orderByDesc (str);
+                for(String f:str){
+                    query.orderByAsc (f);
+                }
             }
         }
         return query;

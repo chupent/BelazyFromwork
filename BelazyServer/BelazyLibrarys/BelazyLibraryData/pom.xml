@@ -36,10 +36,9 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${mybatis.version}</version>
         </dependency>
-        <!--mybatis plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis.plus.version}</version>
         </dependency>
     </dependencies>

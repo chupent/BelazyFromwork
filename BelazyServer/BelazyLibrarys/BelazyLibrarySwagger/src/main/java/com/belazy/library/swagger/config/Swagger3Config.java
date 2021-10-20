@@ -86,15 +86,8 @@ public class Swagger3Config {
     private List<RequestParameter> getGlobalRequestParameters() {
         List<RequestParameter> parameters = new ArrayList<RequestParameter> ();
         parameters.add (new RequestParameterBuilder ()
-                .name ("x-access-token")
+                .name ("Authorization")
                 .description ("令牌")
-                .required (false)
-                .in (ParameterType.HEADER)
-                .build ());
-
-        parameters.add (new RequestParameterBuilder ()
-                .name ("Equipment-Type")
-                .description ("API接口文档")
                 .required (false)
                 .in (ParameterType.HEADER)
                 .build ());
