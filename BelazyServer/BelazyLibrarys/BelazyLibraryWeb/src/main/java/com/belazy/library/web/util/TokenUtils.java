@@ -1,6 +1,8 @@
 package com.belazy.library.web.util;
 
-import com.belazy.library.web.constant.SecurityConstants;
+import com.belazy.library.model.constant.AuthConstant;
+import com.belazy.library.model.dto.UserInfoDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,15 @@ public class TokenUtils {
         return (requestAttributes == null) ? null : ((ServletRequestAttributes) requestAttributes).getRequest ();
     }
     /**
+     * 获取jwt中的claims信息
+     * @param token
+     * @return claim
+     */
+    public static Claims getClaims(String token) {
+        String key = Base64.getEncoder().encodeToString(AuthConstant.SIGN_KEY.getBytes());
+        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+    }
+    /**
      * 获取请求中的token
      * @return token
      */
@@ -33,212 +44,42 @@ public class TokenUtils {
                 token = authorization.split(" ")[1];
             }
         }catch (Exception e){
-            //e.printStackTrace();
+            log.info ("获取Token异常!");
             return null;
         }
-
         return token;
     }
-
-    /**
-     * 获取jwt中的claims信息
-     *
-     * @param token
-     * @return claim
-     */
-    private static Claims getClaims(String token) {
-        String key = Base64.getEncoder().encodeToString(SecurityConstants.SIGN_KEY.getBytes());
-        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-    }
-    /**
-     * 获取请求中的userId
-     *
-     *
-     * @return userId
-     */
-    public static String getUserId() {
+    public static UserInfoDTO getUserInfo(){
         String token = getToken();
         if (token == null) {
+            log.info ("获取Token为Null!");
             return null;
         }
         try {
             Claims claims = getClaims(token);
-            Object o  = claims.get(SecurityConstants.USER_INFO);
-            String userId = claims.get(SecurityConstants.USER_INFO).toString();
-            log.info("获取userId成功，值为:{}", userId);
-            return userId;
+            Object obj = claims.get (AuthConstants.USER_INFO);
+            if(null!=obj){
+                ObjectMapper mapper = new ObjectMapper ();
+                String jsonString = mapper.writeValueAsString(obj);
+                UserInfoDTO dto = mapper.readValue (jsonString,UserInfoDTO.class);
+                log.info("获取UserInfoDTO成功，值为:{}", dto);
+                return dto;
+            }
         }catch (Exception e){
+            log.info ("获取UserInfo异常!");
             return null;
         }
+        return null;
     }
-//
-//    /**
-//     * 获取请求中的 username
-//     *
-//     *
-//     * @return userId
-//     */
-//    public static String getNickName() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        try {
-//            Claims claims = getClaims(token);
-//            String nickname = ChkUtil.isEmpty(claims.get(UserConstants.NICK_NAME)) ? ""
-//                    : claims.get(UserConstants.NICK_NAME).toString();
-//            log.debug("获取nickname成功，值为", nickname);
-//            return nickname;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-//
-//    /**
-//     * 获取请求中的 username
-//     *
-//     *
-//     * @return userId
-//     */
-//    public static String getUserName() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        Claims claims = getClaims(token);
-//        String username = (String) claims.get(UserConstants.USER_NAME);
-//        log.debug("获取username成功，值为", username);
-//        return username;
-//    }
-//
-//    /**
-//     * 获取请求中的 roles
-//     * @return userId
-//     */
-//    public static ArrayList<String> getRoles() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        Claims claims = getClaims(token);
-//        ArrayList<String> roles = (ArrayList<String>) claims.get(UserConstants.ROLES);
-//        log.debug("获取roles成功，值为", roles);
-//        return roles;
-//    }
-//
-//    /**
-//     * 获取请求中的 roles
-//     * @return userId
-//     */
-//    public static ArrayList<String> getPermissions() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        Claims claims = getClaims(token);
-//        ArrayList<String> roles = (ArrayList<String>) claims.get(UserConstants.PERMISSIONS);
-//        log.debug("获取roles成功，值为", roles);
-//        return roles;
-//    }
-//
-//    /**
-//     * 获取请求中的 门店ID
-//     *
-//     *
-//     * @return userId
-//     */
-//    public static String getCompId() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        Claims claims = getClaims(token);
-//        String compId = (String) claims.get(UserConstants.COMP_ID);
-//        log.debug("获取compId成功，值为", compId);
-//        return compId;
-//    }
-//
-//    /**
-//     * 获取请求中的 门店名称
-//     *
-//     *
-//     * @return userId
-//     */
-//    public static String getCompName() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        Claims claims = getClaims(token);
-//        String compName = (String) claims.get(UserConstants.COMP_NAME);
-//        log.debug("获取compName成功，值为", compName);
-//        return compName;
-//    }
-//
-//    /**
-//     * 获取请求中的 部门ID
-//     *
-//     *
-//     * @return userId
-//     */
-//    public static String getDeptId() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        Claims claims = getClaims(token);
-//        String deptId = (String) claims.get(UserConstants.DEPT_ID);
-//        log.debug("获取deptId成功，值为", deptId);
-//        return deptId;
-//    }
-//
-//    /**
-//     * 获取请求中的 部门名称
-//     *
-//     *
-//     * @return userId
-//     */
-//    public static String getDeptName() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        Claims claims = getClaims(token);
-//        String deptName = (String) claims.get(UserConstants.DEPT_NAME);
-//        log.debug("获取deptName成功，值为", deptName);
-//        return deptName;
-//    }
-//
-//    /**
-//     * 获取请求中的client_id
-//     *
-//     *
-//     * @return userId
-//     */
-//    public static String getClientId() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        Claims claims = getClaims(token);
-//        String clientId = (String) claims.get(UserConstants.CLIENT_ID);
-//        log.debug("获取clientId成功，值为", clientId);
-//        return clientId;
-//    }
-//
-//    /**
-//     * 获取请求中的roles集合
-//     *
-//     *
-//     * @return roles
-//     */
-//    public static List<String> getAuthorities() {
-//        String token = getToken();
-//        if (token == null) {
-//            return null;
-//        }
-//        Claims claims = getClaims(token);
-//        return (List<String>) claims.get(UserConstants.AUTHORITIES);
-//    }
+    /**
+     * 获取请求中的userId
+     * @return userId
+     */
+    public static String getUserId() {
+        UserInfoDTO dto = getUserInfo();
+        if(null!=dto){
+            return dto.getId ();
+        }
+        return null;
+    }
 }

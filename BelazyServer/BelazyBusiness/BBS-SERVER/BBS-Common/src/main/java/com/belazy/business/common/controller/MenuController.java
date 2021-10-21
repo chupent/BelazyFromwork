@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.belazy.library.core.basics.BasicController;
 import com.belazy.library.model.Result;
 import com.belazy.library.model.vo.PageVO;
+import com.belazy.library.web.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -77,5 +78,11 @@ public class MenuController extends BasicController {
     public Result remove(@PathVariable String id) {
         boolean result =  iMenuService.removeById(id);
 		return result?Result.success() : Result.fail();
+    }
+    @GetMapping("/userMenuList")
+    @ApiOperation(value = "查询系统-用户菜单表列表(不分页)", notes = "查询系统-用户菜单表列表(不分页)")
+    public Result<List<MenuEntity>> userMenuList() {
+        List<MenuEntity> list = iMenuService.userMenuList();
+        return Result.success(list);
     }
 }

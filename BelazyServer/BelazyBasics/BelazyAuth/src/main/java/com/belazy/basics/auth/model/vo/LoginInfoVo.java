@@ -1,5 +1,6 @@
 package com.belazy.basics.auth.model.vo;
 
+import com.belazy.library.model.dto.UserInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,5 +27,5 @@ public class LoginInfoVo implements Serializable {
     @ApiModelProperty(value = "scope",required = true)
     private String scope;
     @ApiModelProperty(value = "用户信息",required = true)
-    private UserInfoVo userInfo;
+    private UserInfoDTO userInfo;
 }

@@ -1,6 +1,10 @@
-package com.belazy.basics.auth.model.vo;
+package com.belazy.library.model.dto;
+
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,7 +17,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfoVo implements Serializable {
+public class UserInfoDTO implements Serializable {
     @ApiModelProperty(value = "用户ID",required = true)
     private String id;
     @ApiModelProperty(value = "用户账号",required = true)

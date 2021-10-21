@@ -55,13 +55,6 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <!--核心类库-->
-        <dependency>
-            <groupId>com.belazy.library</groupId>
-            <artifactId>BelazyLibraryCore</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>com.belazy.library</groupId>
             <artifactId>BelazyLibraryRedis</artifactId>

@@ -4,8 +4,8 @@ import com.belazy.basics.auth.constant.SecurityConstants;
 import com.belazy.basics.auth.exception.IOAuth2WebResponseExceptionTranslator;
 import com.belazy.basics.auth.mobile.MobileSMSCodeTokenGranter;
 import com.belazy.basics.auth.model.UserDetail;
-import com.belazy.basics.auth.model.vo.UserInfoVo;
 import com.belazy.basics.auth.service.IUserDetailService;
+import com.belazy.library.model.dto.UserInfoDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,7 +110,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
             Object o =  oAuth2Authentication.getUserAuthentication ().getPrincipal ();
             if(o!=null){
                 UserDetail detail = (UserDetail) o;
-                UserInfoVo infoVo =new UserInfoVo ();
+                UserInfoDTO infoVo =new UserInfoDTO ();
                 infoVo.setAccount (detail.getAccount ());
                 infoVo.setRoles (detail.getRoles ());
                 infoVo.setId (detail.getId ());

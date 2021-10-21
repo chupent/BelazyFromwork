@@ -5,6 +5,5 @@ package com.belazy.library.model.constant;
  * @author tangcp
  */
 public interface ApplicationNameConstant {
-    String BELAZY_AUTH = "belazy-auth";
     String BBS_COMMON = "bbs-common";
 }

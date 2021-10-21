@@ -1,7 +1,6 @@
 package com.belazy.basics.auth.config;
 
-
-import com.belazy.basics.auth.constant.SecurityConstants;
+import com.belazy.library.model.constant.AuthConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -23,7 +22,7 @@ public class JwtTokenConfig {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter ();
-        accessTokenConverter.setSigningKey (SecurityConstants.SIGN_KEY);//设置秘钥(BelazySecret.JWT)
+        accessTokenConverter.setSigningKey (AuthConstant.SIGN_KEY);//设置秘钥(BelazySecret.JWT)
         return accessTokenConverter;
     }
 }
