@@ -21,12 +21,12 @@ public class LoginIN implements Serializable {
     private String password;
     @ApiModelProperty("短信验证码(GRANT_TYPE=sms_code时必填)")
     private String smsCode ;
-    @ApiModelProperty("设备系统版本")
-    private String sysVersion;
-    @ApiModelProperty("设备ID")
+    @ApiModelProperty("App访问设备版本类型，web为访问浏览器")
+    private String browser;
+    @ApiModelProperty("设备ID，web访问为电脑MAC地址")
     private String deviceId;
-    @ApiModelProperty("设备版本")
-    private String deviceVersion;
-    @ApiModelProperty("App版本")
-    private String appVersion;
+    @ApiModelProperty("访问端客户端版本")
+    private String version;
+    @ApiModelProperty("登录地")
+    private String loginLocation;
 }

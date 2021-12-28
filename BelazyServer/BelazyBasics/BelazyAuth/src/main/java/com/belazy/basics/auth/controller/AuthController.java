@@ -2,11 +2,15 @@ package com.belazy.basics.auth.controller;
 
 import com.belazy.basics.auth.constant.RedisConstant;
 import com.belazy.basics.auth.constant.SecurityConstants;
+import com.belazy.basics.auth.model.LoginLog;
 import com.belazy.basics.auth.model.in.LoginIN;
 import com.belazy.basics.auth.model.vo.LoginInfoVo;
+import com.belazy.basics.auth.service.ILoginLogService;
 import com.belazy.library.model.Result;
 import com.belazy.library.model.enums.GrantTypeEnum;
+import com.belazy.library.model.enums.SourceEnum;
 import com.belazy.library.redis.service.RedisService;
+import com.belazy.library.web.util.IpUtils;
 import com.belazy.library.web.util.OkHttpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,7 +45,7 @@ public class AuthController {
     private final RedisService redisService;
     private final ConsumerTokenServices consumerTokenServices;
     private final OkHttpClient okHttpClient;
-
+    private final ILoginLogService iLoginLogService;
     @Value("${oauth.clientId}")
     private String clientId;
     @Value("${oauth.clientSecret}")
@@ -57,6 +61,7 @@ public class AuthController {
         if (!StringUtils.isEmpty (obj)) {
             return Result.fail ("已发送短信验证码，请稍后再试!");
         }
+        //TODO 调用发送短信接口
         redisService.set (RedisConstant.LOGIN_SMS_CODE_KEY + moible, "123456", RedisConstant.LOGIN_SMS_CODE_EXPIRE);
         return Result.success (true);
     }
@@ -73,9 +78,28 @@ public class AuthController {
     @ApiOperation (value = "登录接口",response = LoginInfoVo.class)
     public Result<LoginInfoVo> login(@RequestBody LoginIN in, HttpServletRequest request) {
         String username = in.getUsername ();
-        if (StringUtils.isEmpty (username)) {
-            return Result.fail ("账号不能为空!");
+        String ipAddr = IpUtils.getIpAddr (request);
+        if(SourceEnum.WEB.source.equals (in.getSource ())){
+            String browserName = IpUtils.getBrowserName (request);
+            String browserVersion = IpUtils.getBrowserVersion (request);
+            in.setBrowser (browserName+" "+browserVersion);
+            in.setDeviceId (IpUtils.getMac (ipAddr));
         }
+        LoginLog mLog = initLoginLog(in);
+        mLog.setIpaddr (ipAddr);
+        mLog.setOs (IpUtils.getOsName (request));
+
+
+        if (StringUtils.isEmpty (username)) {
+            mLog.setStatus ("1");
+            String message = "账号不能为空!";
+            mLog.setMsg (message);
+            iLoginLogService.insertLoginLogMapper (mLog);
+            return Result.fail (message);
+        }
+
+
+
         String mGrantType = request.getHeader (SecurityConstants.GRANT_TYPE);
         if (StringUtils.isEmpty (mGrantType)) {
             mGrantType  = in.getGrantType ();
@@ -83,7 +107,6 @@ public class AuthController {
                 mGrantType = GrantTypeEnum.PASSWORD.val;
             }
         }
-
         Map<String, String> param = new HashMap<> ();
         param.put (SecurityConstants.GRANT_TYPE, mGrantType);
         param.put (SecurityConstants.CLIENT_ID, clientId);
@@ -92,21 +115,25 @@ public class AuthController {
         if (GrantTypeEnum.SMS_CODE.val.equals (mGrantType)) { //手机+短信验证码登录
             String code = in.getSmsCode ();
             if (StringUtils.isEmpty (code)) {
-                return Result.fail ("验证码不能为空!");
+                String message = buildFailLoginLog (mLog,"验证码不能为空!");
+                return Result.fail (message);
             }
             param.put (SecurityConstants.SMS_CODE, code);
         } else {
             String pwd = in.getPassword ();
             if (StringUtils.isEmpty (pwd)) {
-                return Result.fail ("密码不能为空!");
+                String message = buildFailLoginLog (mLog,"密码不能为空!");
+                return Result.fail (message);
             }
             param.put (SecurityConstants.PASSWORD, pwd);
         }
 
         //调用认证接口
         String result = OkHttpUtil.builder ().okHttpClient (okHttpClient).build ().post (authUri, param);
+        log.info ("result==>{}", result);
         if (StringUtils.isEmpty (result)) {
-            return Result.fail ();
+            String message = buildFailLoginLog (mLog,"认证请求失败!");
+            return Result.fail (message);
         }
         try {
             //处理OAuth2结果集
@@ -114,7 +141,6 @@ public class AuthController {
             mapper.configure (DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);//忽略匹配不是的字段
             mapper.setPropertyNamingStrategy (PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);//下滑线转驼峰
 
-            log.info ("result==>{}", result);
             JsonNode jsonNode = mapper.readTree (result);
             if (null != jsonNode) {
                 JsonNode statusNode = jsonNode.get ("status");
@@ -122,15 +148,40 @@ public class AuthController {
                     JsonNode messageNode = jsonNode.get ("message");
                     String message = messageNode.asText ();
                     String status = statusNode.asText ();
+                    buildFailLoginLog (mLog,message);
                     return Result.fail (status, message);
                 }
             }
+
             LoginInfoVo loginInfoVo = mapper.readValue (result, LoginInfoVo.class);
-            //TODO 记录登录日志
+            mLog.setMsg ("登录成功");
+            iLoginLogService.insertLoginLogMapper (mLog);
             return Result.success (loginInfoVo);
         } catch (Exception e) {
-            log.error ("result==>{}", result);
+            buildFailLoginLog (mLog,"认证请求失败");
             return Result.unauthorized ();
         }
+    }
+
+    private String buildFailLoginLog(LoginLog mLog,String msg) {
+        mLog.setStatus ("1");
+        mLog.setMsg (msg);
+        log.error (msg);
+        iLoginLogService.insertLoginLogMapper (mLog);
+        return msg;
+    }
+
+    private LoginLog initLoginLog(LoginIN in){
+        LoginLog mLog = new LoginLog ();
+        mLog.setSource (in.getSource ());
+        mLog.setStatus ("0");
+        mLog.setUserName (in.getUsername ());
+        mLog.setDeviceId (in.getDeviceId ());
+        mLog.setBrowser (in.getBrowser ());
+        mLog.setVersion (in.getVersion ());
+        mLog.setCreateBy (in.getUsername ());
+        mLog.setUpdateBy (in.getUsername ());
+        mLog.setLoginLocation (in.getLoginLocation ());
+        return mLog;
     }
 }

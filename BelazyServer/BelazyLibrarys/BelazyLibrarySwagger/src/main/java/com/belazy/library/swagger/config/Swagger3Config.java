@@ -82,7 +82,6 @@ public class Swagger3Config {
      *
      * @return
      */
-
     private List<RequestParameter> getGlobalRequestParameters() {
         List<RequestParameter> parameters = new ArrayList<RequestParameter> ();
         parameters.add (new RequestParameterBuilder ()

@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.belazy.basics.admin</groupId>
+    <groupId>com.belazy.admin</groupId>
     <artifactId>BelazyAdmin</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -28,7 +28,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.belazy.basics.admin.AdminRunApplication</mainClass>
+                    <mainClass>com.belazy.admin.AdminRunApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

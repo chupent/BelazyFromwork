@@ -1,9 +1,5 @@
 package com.belazy.basics.auth.service;
 
-import com.belazy.basics.auth.mapper.IUserMapper;
-import com.belazy.basics.auth.model.UserDetail;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,27 +11,7 @@ import javax.annotation.Resource;
  *
  * @author tangcp
  */
-@Slf4j
-public class IUserDetailService implements UserDetailsService {
-    @Resource
-    private IUserMapper iUserMapper;
-
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetail detail = iUserMapper.findUserByAccount (username);
-        log.info ("UserDetail:{}", detail);
-        return detail;
-    }
-
-    public UserDetails loadUserByMobile(String mobile) throws UsernameNotFoundException {
-        UserDetail detail = iUserMapper.findUserByMobile (mobile);
-        log.info ("UserDetail:{}", detail);
-        return detail;
-    }
-
-    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
-        UserDetail detail = iUserMapper.findUserByEmail (email);
-        log.info ("UserDetail:{}", detail);
-        return detail;
-    }
-
+public interface IUserDetailService extends UserDetailsService {
+    UserDetails loadUserByMobile(String mobile) throws UsernameNotFoundException;
+    UserDetails loadUserByEmail(String email) throws UsernameNotFoundException;
 }

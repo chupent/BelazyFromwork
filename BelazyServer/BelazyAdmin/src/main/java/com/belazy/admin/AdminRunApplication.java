@@ -1,4 +1,4 @@
-package com.belazy.basics.admin;
+package com.belazy.admin;
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import lombok.extern.slf4j.Slf4j;

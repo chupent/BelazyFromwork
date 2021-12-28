@@ -1,6 +1,7 @@
 package com.belazy.basics.auth.exception;
 
 import com.belazy.basics.auth.enums.ErrorMessageEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import java.util.List;
  *
  * @author tangcp
  */
+@Slf4j
 @Component
 public class IOAuth2WebResponseExceptionTranslator implements WebResponseExceptionTranslator {
     private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer ();
@@ -35,24 +37,31 @@ public class IOAuth2WebResponseExceptionTranslator implements WebResponseExcepti
             if (null != throwable) {
                 if (throwable instanceof OAuth2Exception) {//异常链中有OAuth2Exception异常
                     if(throwable instanceof InvalidGrantException){
+                        log.error ("授权失败，账号或密码错误！");
                         return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.INVALID_GRANT, throwable));
                     } else if(throwable instanceof IOAuth2Exception){
+                        log.error ("授权失败，账号或密码错误！");
                         return this.handleOAuth2Exception ((IOAuth2Exception) throwable);
                     } else {
+                        log.error ("授权异常");
                         return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.AUTH_EXCEPTION, throwable));
                     }
                 }
                 if (throwable instanceof AuthenticationException) {//身份验证相关异常
+                    log.error ("授权失败，账号或密码错误！");
                     return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.INVALID_GRANT, throwable));
                 }
                 if (throwable instanceof AccessDeniedException) {//异常链中包含拒绝访问异常
+                    log.error ("请求拒绝访问！");
                     return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.ACCESS_DENIED, throwable));
                 }
                 if (throwable instanceof HttpRequestMethodNotSupportedException) {//异常链中包含Http方法请求异常
+                    log.error ("HTTP请求方法请求异常！");
                     return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.HTTP_REQUEST_METHOD_NOT_SUPPORTED, throwable));
                 }
             }
         }
+        log.error ("服务器访问异常,请联系管理员！");
         return this.handleOAuth2Exception (new IOAuth2Exception (ErrorMessageEnum.INTERNAL_SERVER_ERROR, e));
     }
 

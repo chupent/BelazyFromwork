@@ -57,7 +57,7 @@ public class TokenUtils {
         }
         try {
             Claims claims = getClaims(token);
-            Object obj = claims.get (AuthConstants.USER_INFO);
+            Object obj = claims.get (AuthConstant.USER_INFO);
             if(null!=obj){
                 ObjectMapper mapper = new ObjectMapper ();
                 String jsonString = mapper.writeValueAsString(obj);

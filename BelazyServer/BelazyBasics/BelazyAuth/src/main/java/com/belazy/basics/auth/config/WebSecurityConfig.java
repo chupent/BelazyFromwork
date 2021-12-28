@@ -3,6 +3,7 @@ package com.belazy.basics.auth.config;
 import com.belazy.basics.auth.constant.SecurityConstants;
 import com.belazy.basics.auth.mobile.MobileSMSCodeAuthenticationProvider;
 import com.belazy.basics.auth.service.IUserDetailService;
+import com.belazy.basics.auth.service.impl.UserDetailService;
 import com.belazy.library.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean//注入密码加密
     public IUserDetailService userDetailsService() {
-        return new IUserDetailService ();
+        return new UserDetailService ();
     }
 
     @Bean//认证提供者

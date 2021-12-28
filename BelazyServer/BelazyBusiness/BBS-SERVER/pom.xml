@@ -11,7 +11,8 @@
 
     <modules>
         <module>BBS-Common</module>
-        <module>BBS-TEST</module>
+        <module>BBS-Workflow</module>
+        <module>BBS-Tool</module>
     </modules>
 
     <artifactId>BBS-SERVER</artifactId>
